@@ -1,12 +1,7 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import React, {useEffect} from 'react';
+import * as RNLocalize from 'react-native-localize';
+import {translate, setI18nConfig} from './src/translations/i18-helper';
 
-import React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -25,6 +20,19 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 const App: () => React$Node = () => {
+  useEffect(() => {
+    // Set up internationalization
+    setI18nConfig();
+    RNLocalize.addEventListener('change', () => {
+      setI18nConfig();
+      this.forceUpdate();
+    });
+
+    return () => {
+      RNLocalize.removeEventListener('change', () => {});
+    };
+  }, []);
+
   return (
     <React.Fragment>
       <StatusBar barStyle="dark-content" />
@@ -40,7 +48,9 @@ const App: () => React$Node = () => {
           )}
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Androparty App</Text>
+              <Text style={styles.sectionTitle}>
+                {translate('welcome')} Androparty App
+              </Text>
               <Text style={styles.sectionDescription}>
                 Edit <Text style={styles.highlight}>App.js</Text> to change this
                 screen and then come back to see your edits.
