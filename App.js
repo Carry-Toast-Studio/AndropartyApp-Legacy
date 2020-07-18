@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import * as RNLocalize from 'react-native-localize';
 import {translate, setI18nConfig} from './src/translations/i18-helper';
 
@@ -13,9 +13,7 @@ import {
 } from 'react-native';
 import SegmentedControl from '@react-native-community/segmented-control';
 
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const MainSwitch = Platform.select({
   ios: () => SegmentedControl,
@@ -23,6 +21,7 @@ const MainSwitch = Platform.select({
 })();
 
 const App: () => React$Node = () => {
+  const [tabs, setTabs] = useState([]);
   useEffect(() => {
     // Set up internationalization
     setI18nConfig();
@@ -30,6 +29,9 @@ const App: () => React$Node = () => {
       setI18nConfig();
       this.forceUpdate();
     });
+
+    // Set the tabnames
+    setTabs(Object.values(translate('tabnames')));
 
     return () => {
       RNLocalize.removeEventListener('change', () => {});
@@ -43,17 +45,16 @@ const App: () => React$Node = () => {
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
-
           <MainSwitch
-            values={['One', 'Two']}
-            style = {styles.segmentedControl}
+            values={tabs}
+            style={styles.segmentedControl}
             selectedIndex={0}
             onChange={(event) => {
-              this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
+              this.setState({
+                selectedIndex: event.nativeEvent.selectedSegmentIndex,
+              });
             }}
           />
-
-
         </ScrollView>
       </SafeAreaView>
     </React.Fragment>
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
   },
   segmentedControl: {
     margin: 40,
-  }
+  },
 });
 
 export default App;

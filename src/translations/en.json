@@ -1,3 +1,8 @@
 {
-  "welcome": "Welcome to..."
+  "one": "One",
+  "two": "Two",
+  "tabnames": {
+    "tab1": "Personal",
+    "tab2": "Overall"
+  }
 }
