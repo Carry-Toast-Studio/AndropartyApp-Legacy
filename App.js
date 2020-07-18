@@ -26,7 +26,7 @@ import {
 
 const App: () => React$Node = () => {
   return (
-    <>
+    <React.Fragment>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <ScrollView
@@ -68,7 +68,7 @@ const App: () => React$Node = () => {
           </View>
         </ScrollView>
       </SafeAreaView>
-    </>
+    </React.Fragment>
   );
 };
 

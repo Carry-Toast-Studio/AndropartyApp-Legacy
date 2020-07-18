@@ -1,0 +1,6 @@
+module Pods_AndropartyApp_AndropartyAppTests {
+  umbrella header "Pods-AndropartyApp-AndropartyAppTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

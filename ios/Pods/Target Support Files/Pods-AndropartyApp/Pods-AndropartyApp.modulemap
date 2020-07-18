@@ -1,0 +1,6 @@
+module Pods_AndropartyApp {
+  umbrella header "Pods-AndropartyApp-umbrella.h"
+
+  export *
+  module * { export * }
+}
