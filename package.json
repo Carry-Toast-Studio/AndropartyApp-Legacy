@@ -12,9 +12,12 @@
   "dependencies": {
     "i18n-js": "^3.7.1",
     "lodash.memoize": "^4.1.2",
+    "@react-native-community/segmented-control": "github:react-native-community/segmented-control",
     "react": "16.13.1",
     "react-native": "^0.63.1",
     "react-native-localize": "^1.4.0"
+    "react-native": "^0.63.1",
+    "react-native-segmented-control-tab": "^3.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
