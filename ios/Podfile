@@ -8,6 +8,8 @@ target 'AndropartyApp' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'react-native-segmented-control', :path => '../node_modules/@react-native-community/segmented-control'
+
   target 'AndropartyAppTests' do
     inherit! :complete
     # Pods for testing

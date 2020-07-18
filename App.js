@@ -9,20 +9,23 @@
 import React from 'react';
 import {
   SafeAreaView,
+  Platform,
   StyleSheet,
   ScrollView,
   View,
   Text,
   StatusBar,
 } from 'react-native';
+import SegmentedControl from '@react-native-community/segmented-control';
 
 import {
-  Header,
-  LearnMoreLinks,
   Colors,
-  DebugInstructions,
-  ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+
+const MainSwitch = Platform.select({
+  ios: () => SegmentedControl,
+  android: () => SegmentedControl,
+})();
 
 const App: () => React$Node = () => {
   return (
@@ -32,40 +35,17 @@ const App: () => React$Node = () => {
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Androparty App</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
+
+          <MainSwitch
+            values={['One', 'Two']}
+            style = {styles.segmentedControl}
+            selectedIndex={0}
+            onChange={(event) => {
+              this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
+            }}
+          />
+
+          
         </ScrollView>
       </SafeAreaView>
     </React.Fragment>
@@ -109,6 +89,9 @@ const styles = StyleSheet.create({
     paddingRight: 12,
     textAlign: 'right',
   },
+  segmentedControl: {
+    margin: 40,
+  }
 });
 
 export default App;
