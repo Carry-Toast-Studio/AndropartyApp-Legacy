@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import * as RNLocalize from 'react-native-localize';
 import {translate, setI18nConfig} from './src/translations/i18-helper';
 
 import {
@@ -25,17 +24,8 @@ const App: () => React$Node = () => {
   useEffect(() => {
     // Set up internationalization
     setI18nConfig();
-    RNLocalize.addEventListener('change', () => {
-      setI18nConfig();
-      this.forceUpdate();
-    });
-
-    // Set the tabnames
+    // Set up tabnames
     setTabs(Object.values(translate('tabnames')));
-
-    return () => {
-      RNLocalize.removeEventListener('change', () => {});
-    };
   }, []);
 
   return (
