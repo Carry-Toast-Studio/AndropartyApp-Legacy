@@ -1,6 +1,6 @@
+import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
 import {translate, setI18nConfig} from './src/translations/i18-helper';
-
 import {
   SafeAreaView,
   Platform,
@@ -12,14 +12,10 @@ import {
   Dimensions
 } from 'react-native';
 import SegmentedControl from '@react-native-community/segmented-control';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
-
-
-const MainSwitch = Platform.select({
-  ios: () => SegmentedControl,
-  android: () => SegmentedControl,
-})();
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 // First view controlled by the tab bar / segmented control
 const FirstRoute = () => (
@@ -41,9 +37,11 @@ const SecondRoute = () => (
 // Initial layout for tab views
 const initialLayout = { width: Dimensions.get('window').width };
 
-// Main app
-const App: () => React$Node = () => {
+// Stack navigation (for navigation)
+const Stack = createStackNavigator();
 
+// Main app view
+function HomeScreen() {
   const [tabs, setTabs] = useState([]);
   const [tabIndex, setTabIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -74,20 +72,22 @@ const App: () => React$Node = () => {
       android: () =>  <TabBar
                         {...props}
                         indicatorStyle={{ backgroundColor: 'white' }}
-                        style={{ backgroundColor: 'orange' }}
+                        style={{ backgroundColor: 'orange'}}
                       />,
     })()
   );
 
   return (
     <React.Fragment>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
+      <StatusBar 
+        barStyle="light-content" 
+        backgroundColor = "darkorange"/>
 
-          <MainSwitch
+      <SafeAreaView>
+
+        <View style={{height: Dimensions.get('window').height, backgroundColor: Colors.lighter}}>
+
+          <SegmentedControl
             values={tabs}
             style={styles.segmentedControl}
             selectedIndex={tabIndex}
@@ -106,13 +106,42 @@ const App: () => React$Node = () => {
             initialLayout={initialLayout}
           />
 
-        </ScrollView>
+        </View>
+
       </SafeAreaView>
     </React.Fragment>
+  );
+}
+
+// Main app
+const App: () => React$Node = () => {
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Androparty App" 
+                      component={HomeScreen} 
+                      options={{
+                        headerStyle: {
+                          backgroundColor: 'orange',
+                          elevation: 0
+                        },
+                        headerTintColor: '#fff',
+                        headerTitleStyle: {
+                          fontWeight: 'bold',
+                        },
+                      }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "black"
+  },
   scrollView: {
     backgroundColor: Colors.lighter,
   },
