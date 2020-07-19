@@ -23,7 +23,6 @@ const initialLayout = { width: Dimensions.get('window').width };
 // Full app view (sans top appbar/navigation bar)
 function HomeScreen() {
 
-  const [tabs, setTabs] = useState([]);
   const [tabIndex, setTabIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'first', title: translate('tabnames.tab1') },
@@ -65,7 +64,7 @@ function HomeScreen() {
             // Disable segmented control on Android
             Platform.OS === 'ios' ?
               <SegmentedControl
-                values={tabs}
+                values={[translate("tabnames.tab1"), translate("tabnames.tab2")]}
                 style={styles.segmentedControl}
                 selectedIndex={tabIndex}
                 onChange={(event) => {
