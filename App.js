@@ -9,24 +9,75 @@ import {
   View,
   Text,
   StatusBar,
+  Dimensions
 } from 'react-native';
 import SegmentedControl from '@react-native-community/segmented-control';
-
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
+
 
 const MainSwitch = Platform.select({
   ios: () => SegmentedControl,
   android: () => SegmentedControl,
 })();
 
+// First view controlled by the tab bar / segmented control
+const FirstRoute = () => (
+  <React.Fragment>
+    <View style={[styles.scene, { backgroundColor: '#orange' }]} />
+    <Text>This is tab 1</Text>
+  </React.Fragment>
+);
+
+// First view controlled by the tab bar / segmented control
+const SecondRoute = () => (
+  <React.Fragment>
+    <View style={[styles.scene, { backgroundColor: '#orange' }]} />
+    <Text>This is tab 2</Text>
+  </React.Fragment>
+);
+
+
+// Initial layout for tab views
+const initialLayout = { width: Dimensions.get('window').width };
+
+// Main app
 const App: () => React$Node = () => {
+
   const [tabs, setTabs] = useState([]);
+  const [tabIndex, setTabIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: 'first', title: 'First' },
+    { key: 'second', title: 'Second' },
+  ]);
+
+  const renderScene = SceneMap({
+    first: FirstRoute,
+    second: SecondRoute,
+  });
+
   useEffect(() => {
     // Set up internationalization
     setI18nConfig();
     // Set up tabnames
     setTabs(Object.values(translate('tabnames')));
   }, []);
+
+  // Render the tabbar with custom props to hide it on iOS
+
+  const renderTabBar = props => (
+    Platform.select({
+      ios: () => <TabBar
+                  {...props}
+                  style={{ height: 0 }}
+                />,
+      android: () =>  <TabBar
+                        {...props}
+                        indicatorStyle={{ backgroundColor: 'white' }}
+                        style={{ backgroundColor: 'orange' }}
+                      />,
+    })()
+  );
 
   return (
     <React.Fragment>
@@ -35,16 +86,26 @@ const App: () => React$Node = () => {
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
+
           <MainSwitch
             values={tabs}
             style={styles.segmentedControl}
-            selectedIndex={0}
+            selectedIndex={tabIndex}
             onChange={(event) => {
-              this.setState({
-                selectedIndex: event.nativeEvent.selectedSegmentIndex,
-              });
+              setTabIndex(event.nativeEvent.selectedSegmentIndex);
             }}
           />
+
+          <TabView
+            indicatorStyle={{ backgroundColor: 'white' }}
+            style={{ backgroundColouinr: 'pink' }}
+            navigationState={{ index: tabIndex, routes: routes }}
+            renderScene={renderScene}
+            renderTabBar={renderTabBar}
+            onIndexChange={setTabIndex}
+            initialLayout={initialLayout}
+          />
+
         </ScrollView>
       </SafeAreaView>
     </React.Fragment>
@@ -89,8 +150,19 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   segmentedControl: {
-    margin: 40,
-  },
+    ...Platform.select({
+      ios: {
+        margin: 20,
+      },
+      android: {
+        height: 0
+      },
+      default: {
+        height: 0
+      }
+    })
+  }
+
 });
 
 export default App;
