@@ -43,7 +43,7 @@ const App: () => React$Node = () => {
 
   if (initializing) return null;
 
-  if (!user) {
+  if (user) {
     return (
       <View>
         <Text>Login</Text>

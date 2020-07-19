@@ -9,7 +9,9 @@ import {
   View,
   Text,
   StatusBar,
-  Dimensions
+  Dimensions,
+  Image,
+  TouchableOpacity,
 } from 'react-native';
 import SegmentedControl from '@react-native-community/segmented-control';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
@@ -17,27 +19,14 @@ import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-// First view controlled by the tab bar / segmented control
-const FirstRoute = () => (
-  <React.Fragment>
-    <View style={[styles.scene, { backgroundColor: '#orange' }]} />
-    <Text>This is tab 1</Text>
-  </React.Fragment>
-);
-
-// First view controlled by the tab bar / segmented control
-const SecondRoute = () => (
-  <React.Fragment>
-    <View style={[styles.scene, { backgroundColor: '#orange' }]} />
-    <Text>This is tab 2</Text>
-  </React.Fragment>
-);
+import FirstTab from './FirstTab'
+import SecondTab from './SecondTab'
 
 
 // Initial layout for tab views
 const initialLayout = { width: Dimensions.get('window').width };
 
-// Main app view
+// Full app view (sans top appbar/navigation bar)
 function HomeScreen() {
   const [tabs, setTabs] = useState([]);
   const [tabIndex, setTabIndex] = React.useState(0);
@@ -46,11 +35,13 @@ function HomeScreen() {
     { key: 'second', title: 'Second' },
   ]);
 
+  // renderScene matches each tab with each component (i.e. tab views)
   const renderScene = SceneMap({
-    first: FirstRoute,
-    second: SecondRoute,
+    first: FirstTab,
+    second: SecondTab,
   });
 
+  // Internationalization
   useEffect(() => {
     // Set up internationalization
     setI18nConfig();
@@ -58,8 +49,7 @@ function HomeScreen() {
     setTabs(Object.values(translate('tabnames')));
   }, []);
 
-  // Render the tabbar with custom props to hide it on iOS
-
+  // Render the tabbar with custom props to hide it on iOS (without hiding the tabview)
   const renderTabBar = props => (
     Platform.select({
       ios: () => <TabBar
@@ -84,7 +74,8 @@ function HomeScreen() {
 
         <View style={{height: Dimensions.get('window').height, backgroundColor: Colors.lighter}}>
 
-          {
+          { 
+            // Disable segmented control on Android
             Platform.OS === 'ios' ?
               <SegmentedControl
                 values={tabs}
@@ -167,7 +158,7 @@ const styles = StyleSheet.create({
         height: 0
       }
     })
-  }
+  },
 
 });
 
