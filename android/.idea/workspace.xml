@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="4663998c-351f-4402-bc0f-19e459e82ee1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Podfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Manifest.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Manifest.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Pods.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Pods.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Firebase/Firebase.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Firebase/Firebase.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp-AndropartyAppTests/Pods-AndropartyApp-AndropartyAppTests-acknowledgements.markdown" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp-AndropartyAppTests/Pods-AndropartyApp-AndropartyAppTests-acknowledgements.markdown" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp-AndropartyAppTests/Pods-AndropartyApp-AndropartyAppTests-acknowledgements.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp-AndropartyAppTests/Pods-AndropartyApp-AndropartyAppTests-acknowledgements.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp-AndropartyAppTests/Pods-AndropartyApp-AndropartyAppTests.debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp-AndropartyAppTests/Pods-AndropartyApp-AndropartyAppTests.debug.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp-AndropartyAppTests/Pods-AndropartyApp-AndropartyAppTests.release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp-AndropartyAppTests/Pods-AndropartyApp-AndropartyAppTests.release.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp-tvOS/Pods-AndropartyApp-tvOS.debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp-tvOS/Pods-AndropartyApp-tvOS.debug.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp-tvOS/Pods-AndropartyApp-tvOS.release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp-tvOS/Pods-AndropartyApp-tvOS.release.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp-tvOSTests/Pods-AndropartyApp-tvOSTests.debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp-tvOSTests/Pods-AndropartyApp-tvOSTests.debug.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp-tvOSTests/Pods-AndropartyApp-tvOSTests.release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp-tvOSTests/Pods-AndropartyApp-tvOSTests.release.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp/Pods-AndropartyApp-acknowledgements.markdown" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp/Pods-AndropartyApp-acknowledgements.markdown" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp/Pods-AndropartyApp-acknowledgements.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp/Pods-AndropartyApp-acknowledgements.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp/Pods-AndropartyApp.debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp/Pods-AndropartyApp.debug.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp/Pods-AndropartyApp.release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-AndropartyApp/Pods-AndropartyApp.release.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/RNFBApp/RNFBApp.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/RNFBApp/RNFBApp.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package.json" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view />
+      </state>
+    </system>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1440" />
+    <option name="height" value="798" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
+      <pane id="AndroidView">
+        <subPane>
+          <expand>
+            <path>
+              <item name="android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="android" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="android.project.structure.last.selected" value="SDK Location" />
+    <property name="android.project.structure.proportion" value="0.15" />
+    <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4663998c-351f-4402-bc0f-19e459e82ee1" name="Default Changelist" comment="" />
+      <created>1595128494825</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1595128494825</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="1440" height="798" extended-state="0" />
+    <layout>
+      <window_info content_ui="combo" id="Project" visible="true" weight="0.3297568" />
+      <window_info id="Structure" side_tool="true" />
+      <window_info id="Build Variants" side_tool="true" />
+      <window_info id="Image Layers" />
+      <window_info id="Designer" />
+      <window_info id="Resources Explorer" />
+      <window_info id="Capture Tool" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info id="Captures" order="0" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="TODO" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info active="true" anchor="bottom" id="Build" visible="true" weight="0.3286119" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="right" id="Gradle" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="right" id="Palette&#9;" />
+    </layout>
+  </component>
+</project>

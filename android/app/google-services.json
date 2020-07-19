@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "622141130840",
+    "firebase_url": "https://andropartyapp.firebaseio.com",
+    "project_id": "andropartyapp",
+    "storage_bucket": "andropartyapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:622141130840:android:4b41bb9b46b07b297c622d",
+        "android_client_info": {
+          "package_name": "com.carrytoast.androparty"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "622141130840-aidgrpsid3u58529p57g0unadqb71nbe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOC8GMWttc-GKZlhLLueVZjAclsuh28ZU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "622141130840-aidgrpsid3u58529p57g0unadqb71nbe.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "622141130840-6gueqkqr0h4e7v7j6do7btrrlvt85412.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.carrytoast.androparty"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
