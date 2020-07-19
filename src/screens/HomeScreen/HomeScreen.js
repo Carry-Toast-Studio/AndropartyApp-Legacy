@@ -84,14 +84,18 @@ function HomeScreen() {
 
         <View style={{height: Dimensions.get('window').height, backgroundColor: Colors.lighter}}>
 
-          <SegmentedControl
-            values={tabs}
-            style={styles.segmentedControl}
-            selectedIndex={tabIndex}
-            onChange={(event) => {
-              setTabIndex(event.nativeEvent.selectedSegmentIndex);
-            }}
-          />
+          {
+            Platform.OS === 'ios' ?
+              <SegmentedControl
+                values={tabs}
+                style={styles.segmentedControl}
+                selectedIndex={tabIndex}
+                onChange={(event) => {
+                  setTabIndex(event.nativeEvent.selectedSegmentIndex);
+                }}
+              /> :
+              null
+          }
 
           <TabView
             indicatorStyle={{ backgroundColor: 'white' }}
