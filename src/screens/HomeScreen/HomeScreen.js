@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
-import {translate, setI18nConfig} from './src/translations/i18-helper';
+import {translate, setI18nConfig} from '../../translations/i18-helper';
 import {
   SafeAreaView,
   Platform,

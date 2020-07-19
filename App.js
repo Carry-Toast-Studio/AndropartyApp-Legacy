@@ -17,7 +17,7 @@ import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
-import HomeScreen from './HomeScreen';
+import HomeScreen from './src/screens/HomeScreen/HomeScreen';
 
 
 // Stack navigation (for navigation)
