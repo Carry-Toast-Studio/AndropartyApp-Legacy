@@ -2,14 +2,8 @@ import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
 import {setI18nConfig} from './src/translations/i18-helper';
 import {
-  SafeAreaView,
   Platform,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-  Dimensions
+  StyleSheet
 } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { NavigationContainer } from '@react-navigation/native';
