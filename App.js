@@ -17,7 +17,7 @@ import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import auth from '@react-native-firebase/auth'; 
+import auth from '@react-native-firebase/auth';
 
 // First view controlled by the tab bar / segmented control
 const FirstRoute = () => (
@@ -81,8 +81,8 @@ function HomeScreen() {
 
   return (
     <React.Fragment>
-      <StatusBar 
-        barStyle="light-content" 
+      <StatusBar
+        barStyle="light-content"
         backgroundColor = "darkorange"/>
 
       <SafeAreaView>
@@ -128,10 +128,10 @@ const App: () => React$Node = () => {
     if (initializing) setInitializing(false);
   }
 
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
-  }, []);
+   useEffect(() => {
+     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+     return subscriber; // unsubscribe on unmount
+   }, []);
 
   if (initializing) return null;
 
@@ -146,8 +146,8 @@ const App: () => React$Node = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Androparty App" 
-                      component={HomeScreen} 
+        <Stack.Screen name="Androparty App"
+                      component={HomeScreen}
                       options={{
                         headerStyle: {
                           backgroundColor: 'orange',
