@@ -12,7 +12,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 
 // Login app view
-function LoginForm() {
+const LoginForm = ({setUser}) => {
 
   const placeholderTextColor = 'rgba(255,255,255,0.7)'
   let passwordInput;
@@ -40,7 +40,10 @@ function LoginForm() {
         ref={ (input) => passwordInput = input}
       />
 
-      <TouchableOpacity style={styles.submit}>
+      <TouchableOpacity
+        style={styles.submit}
+        onPress={ () => setUser("user")}
+      >
         <Text style={styles.submitText}>{translate("login.submit").toUpperCase()}</Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>

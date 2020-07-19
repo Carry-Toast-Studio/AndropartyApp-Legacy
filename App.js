@@ -43,7 +43,7 @@ const App: () => React$Node = () => {
   return (
 
     initializing ? null :
-    !user ? <LoginScreen/> :
+    !user ? <LoginScreen setUser={setUser}/> :
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Androparty App"

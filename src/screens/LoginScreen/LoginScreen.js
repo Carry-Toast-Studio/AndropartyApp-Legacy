@@ -15,7 +15,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 
 // Login app view
-function LoginScreen() {
+const LoginScreen = ({setUser}) => {
 
   return (
     <React.Fragment>
@@ -34,7 +34,7 @@ function LoginScreen() {
 
         {/*Form*/}
         <View style={styles.formContainer}>
-          <LoginForm />
+          <LoginForm setUser={setUser} />
         </View>
 
       </View>
