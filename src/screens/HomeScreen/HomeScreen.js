@@ -1,58 +1,42 @@
 import 'react-native-gesture-handler';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
+import {translate} from '../../translations/i18-helper';
 import {
   SafeAreaView,
   Platform,
   StyleSheet,
-  ScrollView,
   View,
-  Text,
   StatusBar,
-  Dimensions
+  Dimensions,
 } from 'react-native';
 import SegmentedControl from '@react-native-community/segmented-control';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 
-// First view controlled by the tab bar / segmented control
-const FirstRoute = () => (
-  <React.Fragment>
-    <View style={[styles.scene, { backgroundColor: '#orange' }]} />
-    <Text>This is tab 1</Text>
-  </React.Fragment>
-);
-
-// First view controlled by the tab bar / segmented control
-const SecondRoute = () => (
-  <React.Fragment>
-    <View style={[styles.scene, { backgroundColor: '#orange' }]} />
-    <Text>This is tab 2</Text>
-  </React.Fragment>
-);
+import FirstTab from './FirstTab'
+import SecondTab from './SecondTab'
 
 
 // Initial layout for tab views
 const initialLayout = { width: Dimensions.get('window').width };
 
-// Main app view
+// Full app view (sans top appbar/navigation bar)
 function HomeScreen() {
 
   const [tabs, setTabs] = useState([]);
   const [tabIndex, setTabIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'first', title: 'First' },
-    { key: 'second', title: 'Second' },
+    { key: 'first', title: translate('tabnames.tab1') },
+    { key: 'second', title: translate('tabnames.tab2') },
   ]);
 
+  // renderScene matches each tab with each component (i.e. tab views)
   const renderScene = SceneMap({
-    first: FirstRoute,
-    second: SecondRoute,
+    first: FirstTab,
+    second: SecondTab,
   });
 
   // Render the tabbar with custom props to hide it on iOS
-
   const renderTabBar = props => (
     Platform.select({
       ios: () => <TabBar
@@ -78,6 +62,7 @@ function HomeScreen() {
         <View style={{height: Dimensions.get('window').height, backgroundColor: Colors.lighter}}>
 
           {
+            // Disable segmented control on Android
             Platform.OS === 'ios' ?
               <SegmentedControl
                 values={tabs}
