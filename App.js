@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
-import {translate, setI18nConfig} from './src/translations/i18-helper';
+import {setI18nConfig} from './src/translations/i18-helper';
 import {
   SafeAreaView,
   Platform,
@@ -11,12 +11,11 @@ import {
   StatusBar,
   Dimensions
 } from 'react-native';
-import SegmentedControl from '@react-native-community/segmented-control';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
+import LoginScreen from './src/screens/LoginScreen/LoginScreen';
 import HomeScreen from './src/screens/HomeScreen/HomeScreen';
 
 
@@ -36,22 +35,21 @@ const App: () => React$Node = () => {
     if (initializing) setInitializing(false);
   }
 
-   useEffect(() => {
-     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-     return subscriber; // unsubscribe on unmount
-   }, []);
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
 
-  if (initializing) return null;
 
-  if (!user) {
-    return (
-      <View>
-        <Text>Login</Text>
-      </View>
-    );
-  }
+  // Set up internationalization
+  useEffect(() => {
+    setI18nConfig();
+    }, []);
 
   return (
+
+    initializing ? null :
+    !user ? <LoginScreen/> :
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Androparty App"
