@@ -31,8 +31,8 @@ function HomeScreen() {
   const [tabs, setTabs] = useState([]);
   const [tabIndex, setTabIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'first', title: 'First' },
-    { key: 'second', title: 'Second' },
+    { key: 'first', title: translate('tabnames.tab1') },
+    { key: 'second', title: translate('tabnames.tab2') },
   ]);
 
   // renderScene matches each tab with each component (i.e. tab views)
