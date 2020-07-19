@@ -1,5 +1,9 @@
 
 ### ReactNative ###
+# Firebase
+/ios/GoogleService-Info.plist
+/android/app/google-services.json
+
 # React Native Stack Base
 
 .expo
