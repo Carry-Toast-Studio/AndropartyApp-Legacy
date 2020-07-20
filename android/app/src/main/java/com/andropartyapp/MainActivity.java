@@ -1,4 +1,4 @@
-package com.andropartyapp;
+package com.carrytoast.androparty;
 
 import com.facebook.react.ReactActivity;
 

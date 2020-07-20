@@ -270,6 +270,7 @@ DerivedData/
 
 ### ReactNative.macOS Stack ###
 # General
+.directory
 .DS_Store
 .AppleDouble
 .LSOverride

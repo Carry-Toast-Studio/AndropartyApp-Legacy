@@ -1,6 +1,13 @@
 {
-  "one": "One",
-  "two": "Two",
+  "app": "AndropartyApp",
+  "login": {
+    "login": "Login",
+    "email": "E-mail",
+    "password": "Password",
+    "submit": "Login",
+    "createAccount": "Create account",
+    "forgotPassword": "Forgot password?"
+  },
   "tabnames": {
     "tab1": "Personal",
     "tab2": "Overall"
