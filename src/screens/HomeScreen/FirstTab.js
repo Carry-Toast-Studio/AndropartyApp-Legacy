@@ -17,7 +17,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // This function is called whenever you tap the floating action button
 const TappedFAB = () => (
-  null
+  alert('Not yet implemented!')
 );
 
 // First view controlled by the tab bar / segmented control

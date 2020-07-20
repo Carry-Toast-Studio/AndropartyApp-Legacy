@@ -61,7 +61,7 @@ function HomeScreen() {
         <View style={{height: Dimensions.get('window').height, backgroundColor: Colors.lighter}}>
 
           {
-            // Disable segmented control on Android
+            // Enable segmented control only on iOS
             Platform.OS === 'ios' ?
               <SegmentedControl
                 values={[translate("tabnames.tab1"), translate("tabnames.tab2")]}

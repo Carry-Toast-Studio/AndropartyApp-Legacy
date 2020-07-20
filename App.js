@@ -47,28 +47,29 @@ const App: () => React$Node = () => {
     !user ? <LoginScreen setUser={setUser}/> :
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Androparty App"
-                      component={HomeScreen}
-                      options={{
-                        headerStyle: {
-                          backgroundColor: 'orange',
-                          elevation: 0
-                        },
-                        headerTintColor: '#fff',
-                        headerTitleStyle: {
-                          fontWeight: 'bold',
-                        },
-                        headerRight: () => (
-                          Platform.OS == 'ios' ?
-                            <Button
-                              styles = {{padding: 200}}
-                              onPress={() => alert('This is a button!')}
-                              title="Add"
-                              color="#fff"
-                            /> 
-                          : null
-                        ),
-                      }}
+        <Stack.Screen 
+          name="Androparty App"
+          component={HomeScreen}
+          options={{
+            headerStyle: {
+              backgroundColor: 'orange',
+              elevation: 0
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              Platform.OS == 'ios' ?
+                <Button
+                  styles = {{padding: 200}}
+                  onPress={() => alert('Not yet implemented!')}
+                  title="Add"
+                  color="#fff"
+                /> 
+              : null
+            ),
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
