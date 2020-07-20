@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   Text,
   TextInput,
+  TouchableWithoutFeedback,
   TouchableOpacity,
   TouchableHighlight,
   Image,
@@ -13,12 +14,14 @@ import {
 } from 'react-native';
 import {translate} from '../../translations/i18-helper';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import Eye from '../../assets/images/eye.png'
-import EyeCrossed from '../../assets/images/eye-crossed.png'
+import UserImage from '../../assets/images/user.png'
+import PasswordImage from '../../assets/images/password.png'
+import EyeImage from '../../assets/images/eye.png'
+import EyeCrossedImage from '../../assets/images/eye-crossed.png'
 
 
 // Login app view
-const LoginForm = ({setUser}) => {
+const LoginForm = ({setUser, setError}) => {
   const [hiddenPassword, setHiddenPassword] = React.useState(true);
   const placeholderTextColor = 'rgba(255,255,255,0.7)'
   let passwordInput;
@@ -31,33 +34,44 @@ const LoginForm = ({setUser}) => {
     <KeyboardAvoidingView
       behavior="padding"
       style={styles.container}>
-      <TextInput
-        placeholder={translate("login.email")}
-        placeholderTextColor={placeholderTextColor}
-        returnKeyType="next"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        autoCorrect={false}
-        style={styles.input}
-        blurOnSubmit={false}
-        onSubmitEditing={ () => passwordInput.focus()}
-      />
+
+      <View>
+        <TextInput
+          placeholder={translate("login.email")}
+          placeholderTextColor={placeholderTextColor}
+          returnKeyType="next"
+          keyboardType="email-address"
+          textContentType="emailAddress"
+          autoCapitalize="none"
+          autoCorrect={false}
+          style={styles.input}
+          blurOnSubmit={false}
+          onSubmitEditing={ () => passwordInput.focus()}
+        />
+        <Image
+          style={{...styles.inputImageContainer, ...styles.inputImage, left: 10}}
+          source={UserImage}/>
+      </View>
       <View>
         <TextInput
           placeholder={translate("login.password")}
           placeholderTextColor={placeholderTextColor}
           secureTextEntry={hiddenPassword}
+          textContentType="password"
           returnKeyType="go"
           style={styles.input}
           blurOnSubmit={false}
           ref={ref => passwordInput = ref}
         />
+        <Image
+          style={{...styles.inputImageContainer, ...styles.inputImage, left: 10}}
+          source={PasswordImage}/>
         <TouchableOpacity
-          style={styles.passwordImageContainer}
+          style={{...styles.inputImageContainer, right: 15}}
           onPress={ () => setHiddenPassword(!hiddenPassword)}>
           <Image
-            style={styles.passwordImage}
-            source={hiddenPassword ? Eye : EyeCrossed}/>
+            style={styles.inputImage}
+            source={hiddenPassword ? EyeImage : EyeCrossedImage}/>
         </TouchableOpacity>
       </View>
 
@@ -75,8 +89,7 @@ const LoginForm = ({setUser}) => {
           underlayColor="rgba(255,255,255,0.4)"
           onPress={() => console.log("PRESSED")}
         >
-          <Text style={{...styles.text, textDecorationLine: 'underline'}}>create an account</Text>
-          {/*<Text style={styles.text}>Forgot Password?</Text>*/}
+          <Text style={{...styles.text, textDecorationLine: 'underline'}}>{translate("login.createAccount")}</Text>
         </TouchableHighlight>
       </View>
 
@@ -93,6 +106,7 @@ const styles = StyleSheet.create({
     height: inputHeight,
     marginBottom: 10,
     paddingHorizontal: 10,
+    paddingLeft: 35,
     backgroundColor: 'rgba(255,255,255,0.2)',
     color: '#fff',
     borderRadius: 12
@@ -100,7 +114,7 @@ const styles = StyleSheet.create({
   submit: {
     backgroundColor: 'rgba(255,255,255,0.4)',
     paddingVertical: 15,
-    marginBottom: Platform.OS == 'ios' ? 25 : 15,
+    marginBottom: 30,
     borderRadius: 12
   },
   submitText: {
@@ -108,19 +122,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  passwordImageContainer: {
+  inputImageContainer: {
     position: 'absolute',
-    right: 15,
     top: inputHeight/4
   },
-  passwordImage: {
+  inputImage: {
       width: inputHeight/2,
       height: inputHeight/2
   },
   signUp: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: Platform.OS == 'ios' ? 25 : 15
+    marginBottom: 45,
+
   },
   text: {
     color: 'white',

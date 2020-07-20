@@ -5,8 +5,14 @@
     "email": "E-mail",
     "password": "Password",
     "submit": "Login",
-    "createAccount": "Create account",
-    "forgotPassword": "Forgot password?"
+    "createAccount": "create a new account"
+  },
+  "register": {
+    "register": "Register account",
+    "email": "E-mail",
+    "password": "Password",
+    "repeat": "Repeat password",
+    "submit": "Create account"
   },
   "tabnames": {
     "tab1": "Personal",
