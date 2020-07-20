@@ -7,7 +7,7 @@ import {
   Image,
   Text
 } from 'react-native';
-import LoginForm from '../../components/LoginScreen/LoginForm';
+import {LoginForm, RegisterForm} from '../../components/LoginScreen/LoginForm';
 import {translate} from '../../translations/i18-helper';
 import Wallpaper from '../../components/Wallpaper';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
@@ -19,7 +19,8 @@ import ErrorImage from '../../assets/images/cross.png'
 // Login app view
 const LoginScreen = ({setUser}) => {
 
-  const [error, setError] = React.useState('');
+  const [error, setError] = React.useState(''); // error in the form
+  const [isLogin, setIsLogin] = React.useState(true); // true == login screen, false == register
 
 
   return (
@@ -37,16 +38,20 @@ const LoginScreen = ({setUser}) => {
           <Text style={styles.title}>{translate("app")}</Text>
         </View>
         {
-          error ?
-            <View style={styles.errorContainer}>
+          // Change opacity so that it is always rendered and does not move other components when appearing
+            <View style={{...styles.errorContainer, opacity: error ? 100 : 0}}>
               <Image style={styles.errorImage} source={ErrorImage}/>
               <Text style={styles.errorText}>{error}</Text>
-            </View> : null
+            </View>
         }
 
         {/*Form*/}
-        <View style={styles.formContainer}>
-          <LoginForm setUser={setUser} setError={setError} />
+        <View>
+          {
+            isLogin ?
+              <LoginForm setUser={setUser} setError={setError} setIsLogin={setIsLogin} /> :
+              <RegisterForm setUser={setUser} setError={setError} setIsLogin={setIsLogin} />
+          }
         </View>
 
       </View>
@@ -58,7 +63,8 @@ const LoginScreen = ({setUser}) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    flexGrow: 1
   },
   logoContainer: {
     alignItems: 'center',

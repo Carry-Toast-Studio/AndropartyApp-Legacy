@@ -5,14 +5,21 @@
     "email": "E-mail",
     "password": "Password",
     "submit": "Login",
-    "createAccount": "create a new account"
+    "createAccount": "create a new account",
+    "errors": {
+      "notImplemented": "Login not implemented yet"
+    }
   },
   "register": {
     "register": "Register account",
     "email": "E-mail",
     "password": "Password",
     "repeat": "Repeat password",
-    "submit": "Create account"
+    "submit": "Create account",
+    "login": "return to login",
+    "errors": {
+      "notImplemented": "Register not implemented yet"
+    }
   },
   "tabnames": {
     "tab1": "Personal",
