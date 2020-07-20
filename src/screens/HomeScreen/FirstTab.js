@@ -27,17 +27,21 @@ const FirstTab = () => (
 
     <Text>This is tab A</Text>
 
-    {/* Floating Action Button */}
-    <View style={styles.FloatingButtonStyle}>
-      <TouchableOpacity 
-        activeOpacity={0.5} 
-        onPress={TappedFAB} 
-        style={styles.TouchableOpacityStyle} >
-          <Image 
-            source={{uri : 'https://reactnativecode.com/wp-content/uploads/2017/11/Floating_Button.png'}} 
-            style={styles.FloatingButtonStyle} />
-      </TouchableOpacity>
-    </View>
+    {
+      // Enable floating android button only on Android
+      Platform.OS === 'android' ?
+        <View style={styles.FloatingButtonStyle}>
+          <TouchableOpacity 
+            activeOpacity={0.5} 
+            onPress={TappedFAB} 
+            style={styles.TouchableOpacityStyle} >
+              <Image 
+                source={{uri : 'https://reactnativecode.com/wp-content/uploads/2017/11/Floating_Button.png'}} 
+                style={styles.FloatingButtonStyle} />
+          </TouchableOpacity>
+        </View> :
+        null
+    }
 
   </React.Fragment>
 );

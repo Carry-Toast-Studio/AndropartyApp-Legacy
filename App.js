@@ -3,7 +3,8 @@ import React, {useEffect, useState} from 'react';
 import {setI18nConfig} from './src/translations/i18-helper';
 import {
   Platform,
-  StyleSheet
+  StyleSheet,
+  Button
 } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { NavigationContainer } from '@react-navigation/native';
@@ -57,6 +58,16 @@ const App: () => React$Node = () => {
                         headerTitleStyle: {
                           fontWeight: 'bold',
                         },
+                        headerRight: () => (
+                          Platform.OS == 'ios' ?
+                            <Button
+                              styles = {{padding: 200}}
+                              onPress={() => alert('This is a button!')}
+                              title="Add"
+                              color="#fff"
+                            /> 
+                          : null
+                        ),
                       }}
         />
       </Stack.Navigator>
