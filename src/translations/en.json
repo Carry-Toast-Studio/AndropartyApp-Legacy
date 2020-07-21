@@ -5,10 +5,7 @@
     "email": "E-mail",
     "password": "Password",
     "submit": "Login",
-    "createAccount": "create a new account",
-    "errors": {
-      "notImplemented": "Login not implemented yet"
-    }
+    "createAccount": "create a new account"
   },
   "register": {
     "register": "Register account",
@@ -17,9 +14,16 @@
     "repeat": "Repeat password",
     "submit": "Create account",
     "login": "return to login",
-    "errors": {
-      "notImplemented": "Register not implemented yet"
-    }
+  },
+  "errors": {
+    "emailEmpty": "Enter an email address",
+    "emailWrong": "Enter a valid email address",
+    "passwordEmpty": "Enter a password",
+    "passwordWrong": "Enter a valid password (8+ characters)",
+    "passwordFormat": "Password must contain uppercase and lowercase letters and a number",
+    "passwordMiss": "Login failed: wrong credentials",
+    "passwordsRepeat": "Passwords are not the same",
+    "accountExists": "An account with that email already exists"
   },
   "tabnames": {
     "tab1": "Personal",

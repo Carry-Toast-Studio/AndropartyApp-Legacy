@@ -37,13 +37,12 @@ const LoginScreen = ({setUser}) => {
           <Image style={styles.logo} source={Logo} />
           <Text style={styles.title}>{translate("app")}</Text>
         </View>
-        {
-          // Change opacity so that it is always rendered and does not move other components when appearing
-            <View style={{...styles.errorContainer, opacity: error ? 100 : 0}}>
-              <Image style={styles.errorImage} source={ErrorImage}/>
-              <Text style={styles.errorText}>{error}</Text>
-            </View>
-        }
+
+        {/*Change opacity so that error it is always rendered and does not move other components when appearing*/}
+        <View style={{...styles.errorContainer, opacity: error ? 100 : 0}}>
+          <Image style={styles.errorImage} source={ErrorImage}/>
+          <Text style={styles.errorText}>{error}</Text>
+        </View>
 
         {/*Form*/}
         <View>
@@ -64,7 +63,7 @@ const LoginScreen = ({setUser}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexGrow: 1
+    flexGrow: 1,
   },
   logoContainer: {
     alignItems: 'center',
@@ -72,8 +71,8 @@ const styles = StyleSheet.create({
     flexGrow: 1
   },
   logo: {
-    width: 300,
-    height: 300,
+    width: 280,
+    height: 280,
   },
   title: {
     color: Colors.white,

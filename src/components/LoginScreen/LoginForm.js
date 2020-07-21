@@ -11,6 +11,7 @@ import {
   Image,
 
 } from 'react-native';
+import Validator from '../../utils/Validator';
 import {translate} from '../../translations/i18-helper';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import UserImage from '../../assets/images/user.png'
@@ -21,6 +22,7 @@ import EyeCrossedImage from '../../assets/images/eye-crossed.png'
 
 // Login app view
 export const LoginForm = ({setUser, setError, setIsLogin}) => {
+  const [mail, setMail] = useState('')
   const [hiddenPassword, setHiddenPassword] = useState(true);
   const placeholderTextColor = 'rgba(255,255,255,0.7)'
   let passwordInput;
@@ -39,6 +41,9 @@ export const LoginForm = ({setUser, setError, setIsLogin}) => {
       behavior="padding"
       style={styles.container}>
 
+      {/*Dummy view to equal the height of the login and the register forms*/}
+      <View style={styles.hidden}/>
+
       <View>
         <TextInput
           placeholder={translate("login.email")}
@@ -50,7 +55,8 @@ export const LoginForm = ({setUser, setError, setIsLogin}) => {
           autoCorrect={false}
           style={styles.input}
           blurOnSubmit={false}
-          onSubmitEditing={ () => passwordInput.focus()}
+          onChangeText={ text => setMail(text) }
+          onSubmitEditing={ () => passwordInput.focus() }
         />
         <Image
           style={{...styles.inputImageContainer, ...styles.inputImage, left: 10}}
@@ -200,13 +206,20 @@ export const RegisterForm = ({setUser, setError, setIsLogin}) => {
 }
 
 const inputHeight = 40;
+const inputGap = 10;
 const styles = StyleSheet.create({
   container: {
     padding: 20
   },
+  hidden: {
+    height: inputHeight,
+    marginBottom: inputGap,
+    paddingHorizontal: 10,
+    opacity: 0,
+  },
   input: {
     height: inputHeight,
-    marginBottom: 10,
+    marginBottom: inputGap,
     paddingHorizontal: 10,
     paddingLeft: 35,
     backgroundColor: 'rgba(255,255,255,0.2)',
