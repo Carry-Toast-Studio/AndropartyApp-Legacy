@@ -66,7 +66,7 @@ class Validator {
     })
 
     // Return the first of all errors found or true if all is ok
-    return (errors && errors.password) ? errors.password[0] : true
+    return (errors && errors.str1) ? errors.str1[0] : true
   }
 
 }

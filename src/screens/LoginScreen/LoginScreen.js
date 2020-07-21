@@ -19,7 +19,7 @@ import ErrorImage from '../../assets/images/cross.png'
 // Login app view
 const LoginScreen = ({setUser}) => {
 
-  const [error, setError] = React.useState(''); // error in the form
+  const [error, setError] = React.useState(null); // error in the form
   const [isLogin, setIsLogin] = React.useState(true); // true == login screen, false == register
 
 
@@ -40,8 +40,8 @@ const LoginScreen = ({setUser}) => {
 
         {/*Change opacity so that error it is always rendered and does not move other components when appearing*/}
         <View style={{...styles.errorContainer, opacity: error ? 100 : 0}}>
-          <Image style={styles.errorImage} source={ErrorImage}/>
-          <Text style={styles.errorText}>{error}</Text>
+            <Image style={styles.errorImage} source={ErrorImage}/>
+            <Text style={styles.errorText}>{error}</Text>
         </View>
 
         {/*Form*/}
@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 70,
+    marginTop: 10
   },
   errorImage: {
     width: 18,

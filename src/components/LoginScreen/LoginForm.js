@@ -23,17 +23,39 @@ import EyeCrossedImage from '../../assets/images/eye-crossed.png'
 // Login app view
 export const LoginForm = ({setUser, setError, setIsLogin}) => {
   const [mail, setMail] = useState('')
+  const [password, setPassword] = useState('')
   const [hiddenPassword, setHiddenPassword] = useState(true);
   const placeholderTextColor = 'rgba(255,255,255,0.7)'
   let passwordInput;
 
   useEffect( () => {
     // Remove error messages on component unmount
-    return () => setError('')
+    return () => setError(null)
   }, [])
 
   function onSubmit () {
-    setError(translate("login.errors.notImplemented"))
+    if (validateForm()) login()
+  }
+
+  function validateForm(){
+    const validationResults = {
+      emailValidation: Validator.validateMail(mail),
+      passwordValidation: Validator.validatePassword(password)
+    }
+
+    for (const result in validationResults){
+      if (validationResults[result] !== true){
+        setError(validationResults[result])
+        return false
+      }
+    }
+
+    setError(null)
+    return true
+  }
+
+  function login() {
+    setError("LOGIN")
   }
 
   return (
@@ -71,7 +93,9 @@ export const LoginForm = ({setUser, setError, setIsLogin}) => {
           returnKeyType="go"
           style={styles.input}
           blurOnSubmit={false}
+          onChangeText={ text => setPassword(text) }
           ref={ref => passwordInput = ref}
+          onSubmitEditing={ onSubmit }
         />
         <Image
           style={{...styles.inputImageContainer, ...styles.inputImage, left: 10}}
@@ -108,6 +132,9 @@ export const LoginForm = ({setUser, setError, setIsLogin}) => {
 
 // Register app view
 export const RegisterForm = ({setUser, setError, setIsLogin}) => {
+  const [mail, setMail] = useState('')
+  const [password, setPassword] = useState('')
+  const [repeatPassword, setRepeatPassword] = useState('')
   const [hiddenPassword, setHiddenPassword] = useState(true);
   const placeholderTextColor = 'rgba(255,255,255,0.7)'
   let passwordInput;
@@ -115,11 +142,34 @@ export const RegisterForm = ({setUser, setError, setIsLogin}) => {
 
   useEffect( () => {
     // Remove error messages on component unmount
-    return () => setError('')
+    return () => setError(null)
   }, [])
 
+
   function onSubmit () {
-    setError(translate("register.errors.notImplemented"))
+    if (validateForm()) register()
+  }
+
+  function validateForm(){
+    const validationResults = {
+      emailValidation: Validator.validateMail(mail),
+      passwordValidation: Validator.validatePassword(password),
+      equalPasswords: Validator.validateEquals(password, repeatPassword)
+    }
+
+    for (const result in validationResults){
+      if (validationResults[result] !== true){
+        setError(validationResults[result])
+        return false
+      }
+    }
+
+    setError(null)
+    return true
+  }
+
+  function register() {
+    setError("REGISTER")
   }
 
   return (
@@ -138,6 +188,7 @@ export const RegisterForm = ({setUser, setError, setIsLogin}) => {
           autoCorrect={false}
           style={styles.input}
           blurOnSubmit={false}
+          onChangeText={ text => setMail(text) }
           onSubmitEditing={ () => passwordInput.focus()}
         />
         <Image
@@ -154,6 +205,7 @@ export const RegisterForm = ({setUser, setError, setIsLogin}) => {
           style={styles.input}
           blurOnSubmit={false}
           ref={ref => passwordInput = ref}
+          onChangeText={ text => setPassword(text) }
           onSubmitEditing={ () => repeatPasswordInput.focus()}
         />
         <Image
@@ -177,6 +229,8 @@ export const RegisterForm = ({setUser, setError, setIsLogin}) => {
           style={styles.input}
           blurOnSubmit={false}
           ref={ref => repeatPasswordInput = ref}
+          onChangeText={ text => setRepeatPassword(text) }
+          onSubmitEditing={ onSubmit }
         />
         <Image
           style={{...styles.inputImageContainer, ...styles.inputImage, left: 10}}

@@ -13,7 +13,7 @@
     "password": "Password",
     "repeat": "Repeat password",
     "submit": "Create account",
-    "login": "return to login",
+    "login": "return to login"
   },
   "errors": {
     "emailEmpty": "Enter an email address",
