@@ -4,6 +4,8 @@ import {translate} from '../translations/i18-helper';
 
 class Validator {
 
+  static emojiRegExp = /([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/
+
   static validateMail = (mail) => {
 
     const errors = validate({mail}, {
@@ -46,8 +48,8 @@ class Validator {
       }
     })
 
-    // Manually check format: uppercase, lowercase and numbers must be present
-    if (!errors && !RegExp(/(?=.*[A-Z])(?=.*[a-z])(?=.*[2-9])/).test(password))
+    // Manually check format: uppercase, lowercase and numbers must be present. Reject emojis.
+    if (!errors && (!RegExp(/(?=.*[A-Z])(?=.*[a-z])(?=.*[2-9])/).test(password) || this.emojiRegExp.test(password)))
       errors = {password: translate("errors.passwordFormat")}
 
     // Return the first of all errors found or true if all is ok

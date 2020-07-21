@@ -4,7 +4,7 @@ import {setI18nConfig} from './src/translations/i18-helper';
 import {
   Platform,
   StyleSheet,
-  Button
+  Button,
 } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,6 +12,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
 import LoginScreen from './src/screens/LoginScreen/LoginScreen';
 import HomeScreen from './src/screens/HomeScreen/HomeScreen';
+import Wallpaper from './src/components/Wallpaper';
 
 
 // Stack navigation (for navigation)
@@ -26,8 +27,28 @@ const App: () => React$Node = () => {
 
   // Handle user state changes
   function onAuthStateChanged(user) {
-    setUser(user);
-    if (initializing) setInitializing(false);
+    // Prevent deleted accounts from signing in
+    if (user != null) checkAccountExists(user)
+    else {
+      setUser(user);
+      setInitializing(false)
+    }
+  }
+
+  function checkAccountExists(user){
+    auth()
+      .fetchSignInMethodsForEmail(user.email)
+      // Everything went fine, sign in automatically
+      .then( (res) => {
+        // No auth methods were returned, sign out user
+        if (res.length === 0) auth().signOut()
+        else setUser(user);
+      })
+      // Ignore network errors and let the user browse the app
+      .catch( (error) => {
+        if (error.code === 'auth/network-request-failed') setUser(user)
+      })
+      .finally ( () => setInitializing(false))
   }
 
   useEffect(() => {
@@ -42,12 +63,11 @@ const App: () => React$Node = () => {
     }, []);
 
   return (
-
     initializing ? null :
-    !user ? <LoginScreen setUser={setUser}/> :
+    !user ? <LoginScreen /> :
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen 
+        <Stack.Screen
           name="Androparty App"
           component={HomeScreen}
           options={{
@@ -60,13 +80,13 @@ const App: () => React$Node = () => {
               fontWeight: 'bold',
             },
             headerRight: () => (
-              Platform.OS == 'ios' ?
+              Platform.OS === 'ios' ?
                 <Button
                   styles = {{padding: 200}}
                   onPress={() => alert('Not yet implemented!')}
                   title="Add"
                   color="#fff"
-                /> 
+                />
               : null
             ),
           }}

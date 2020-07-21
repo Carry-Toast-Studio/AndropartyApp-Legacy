@@ -48,8 +48,8 @@ const LoginScreen = ({setUser}) => {
         <View>
           {
             isLogin ?
-              <LoginForm setUser={setUser} setError={setError} setIsLogin={setIsLogin} /> :
-              <RegisterForm setUser={setUser} setError={setError} setIsLogin={setIsLogin} />
+              <LoginForm setError={setError} setIsLogin={setIsLogin} /> :
+              <RegisterForm setError={setError} setIsLogin={setIsLogin} />
           }
         </View>
 

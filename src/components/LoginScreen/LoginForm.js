@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
+import auth from '@react-native-firebase/auth';
 import {
   StyleSheet,
   View,
@@ -9,7 +10,7 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   Image,
-
+  Platform
 } from 'react-native';
 import Validator from '../../utils/Validator';
 import {translate} from '../../translations/i18-helper';
@@ -21,10 +22,12 @@ import EyeCrossedImage from '../../assets/images/eye-crossed.png'
 
 
 // Login app view
-export const LoginForm = ({setUser, setError, setIsLogin}) => {
+export const LoginForm = ({setError, setIsLogin}) => {
   const [mail, setMail] = useState('')
   const [password, setPassword] = useState('')
   const [hiddenPassword, setHiddenPassword] = useState(true);
+  const [connecting, setConnecting] = useState(false);
+
   const placeholderTextColor = 'rgba(255,255,255,0.7)'
   let passwordInput;
 
@@ -55,7 +58,33 @@ export const LoginForm = ({setUser, setError, setIsLogin}) => {
   }
 
   function login() {
-    setError("LOGIN")
+    setConnecting(true) // disable login btn
+    auth()
+      .signInWithEmailAndPassword(mail, password)
+      .then(() => {
+        /* Do nothing:
+        *   - Auth listener in App.js will set the User
+        *   - Component will unmount
+        * */
+      })
+      // Error codes: https://firebase.google.com/docs/auth/admin/errors
+      .catch(error => {
+        switch(error.code) {
+          // Wrong credentials
+          case 'auth/user-not-found':
+          case 'auth/wrong-password':
+            setError(translate("errors.loginFailed"))
+            break;
+          // Wrong email format (should not happen, form is validated)
+          case 'auth/invalid-email':
+            setError(translate("errors.emailWrong"))
+            break;
+          // Any other error
+          default:
+            setError(translate("errors.loginFailedUnknown"))
+        }
+      })
+      .finally( () => setConnecting(false));
   }
 
   return (
@@ -66,6 +95,7 @@ export const LoginForm = ({setUser, setError, setIsLogin}) => {
       {/*Dummy view to equal the height of the login and the register forms*/}
       <View style={styles.hidden}/>
 
+      {/*Mail input*/}
       <View>
         <TextInput
           placeholder={translate("login.email")}
@@ -84,11 +114,14 @@ export const LoginForm = ({setUser, setError, setIsLogin}) => {
           style={{...styles.inputImageContainer, ...styles.inputImage, left: 10}}
           source={UserImage}/>
       </View>
+
+      {/*Password input*/}
       <View>
         <TextInput
           placeholder={translate("login.password")}
           placeholderTextColor={placeholderTextColor}
           secureTextEntry={hiddenPassword}
+          keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
           textContentType="password"
           returnKeyType="go"
           style={styles.input}
@@ -109,18 +142,22 @@ export const LoginForm = ({setUser, setError, setIsLogin}) => {
         </TouchableOpacity>
       </View>
 
+      {/*Submit btn*/}
       <TouchableHighlight
-        style={styles.submit}
-        underlayColor="rgba(255,255,255,0.5)"
+        style={{...styles.submit, backgroundColor: connecting ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.4)'}}
+        underlayColor="rgba(255,255,255,0.55)"
+        disabled={connecting}
         onPress={onSubmit}
       >
         <Text style={styles.submitText}>{translate("login.submit").toUpperCase()}</Text>
       </TouchableHighlight>
 
+      {/*Link to sign up form*/}
       <View style={styles.signUp}>
         <Text style={styles.text}>Or </Text>
         <TouchableHighlight
           underlayColor="rgba(255,255,255,0.4)"
+          disabled={connecting}
           onPress={() => setIsLogin(false)}
         >
           <Text style={{...styles.text, textDecorationLine: 'underline'}}>{translate("login.createAccount")}</Text>
@@ -131,11 +168,13 @@ export const LoginForm = ({setUser, setError, setIsLogin}) => {
 }
 
 // Register app view
-export const RegisterForm = ({setUser, setError, setIsLogin}) => {
+export const RegisterForm = ({setError, setIsLogin}) => {
   const [mail, setMail] = useState('')
   const [password, setPassword] = useState('')
   const [repeatPassword, setRepeatPassword] = useState('')
   const [hiddenPassword, setHiddenPassword] = useState(true);
+  const [connecting, setConnecting] = useState(false);
+
   const placeholderTextColor = 'rgba(255,255,255,0.7)'
   let passwordInput;
   let repeatPasswordInput;
@@ -169,7 +208,33 @@ export const RegisterForm = ({setUser, setError, setIsLogin}) => {
   }
 
   function register() {
-    setError("REGISTER")
+    setConnecting(true) // disable login btn
+    auth()
+      .createUserWithEmailAndPassword(mail, password)
+      .then(() => {
+        /* Do nothing:
+        *   - Auth listener in App.js will set the User
+        *   - Component will unmount
+        * */
+      })
+      // Error codes: https://firebase.google.com/docs/auth/admin/errors
+      .catch(error => {
+        switch(error.code) {
+          // Email in use
+          case 'auth/email-already-exists':
+          case 'auth/email-already-in-use':
+            setError(translate("errors.registerFailedExists"))
+            break;
+          // Wrong email format (should not happen, form is validated)
+          case 'auth/invalid-email':
+            setError(translate("errors.emailWrong"))
+            break;
+          // Any other error
+          default:
+            setError(translate("errors.registerFailedUnknown"))
+        }
+      })
+      .finally( () => setConnecting(false));
   }
 
   return (
@@ -177,6 +242,7 @@ export const RegisterForm = ({setUser, setError, setIsLogin}) => {
       behavior="padding"
       style={styles.container}>
 
+      {/*Mail input*/}
       <View>
         <TextInput
           placeholder={translate("register.email")}
@@ -195,6 +261,8 @@ export const RegisterForm = ({setUser, setError, setIsLogin}) => {
           style={{...styles.inputImageContainer, ...styles.inputImage, left: 10}}
           source={UserImage}/>
       </View>
+
+      {/*Password input*/}
       <View>
         <TextInput
           placeholder={translate("register.password")}
@@ -219,12 +287,14 @@ export const RegisterForm = ({setUser, setError, setIsLogin}) => {
             source={hiddenPassword ? EyeImage : EyeCrossedImage}/>
         </TouchableOpacity>
       </View>
+
+      {/*Repeat password input*/}
       <View>
         <TextInput
           placeholder={translate("register.repeat")}
           placeholderTextColor={placeholderTextColor}
           secureTextEntry={hiddenPassword}
-          textContentType="password"
+          textContentType="newPassword"
           returnKeyType="go"
           style={styles.input}
           blurOnSubmit={false}
@@ -237,18 +307,22 @@ export const RegisterForm = ({setUser, setError, setIsLogin}) => {
           source={PasswordImage}/>
       </View>
 
+      {/*Submit btn*/}
       <TouchableHighlight
-        style={styles.submit}
+        style={{...styles.submit, backgroundColor: connecting ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.4)'}}
         underlayColor="rgba(255,255,255,0.5)"
+        disabled={connecting}
         onPress={onSubmit}
       >
         <Text style={styles.submitText}>{translate("register.submit").toUpperCase()}</Text>
       </TouchableHighlight>
 
+      {/*Link to login form*/}
       <View style={styles.signUp}>
         <Text style={styles.text}>Or </Text>
         <TouchableHighlight
           underlayColor="rgba(255,255,255,0.4)"
+          disabled={connecting}
           onPress={() => setIsLogin(true)}
         >
           <Text style={{...styles.text, textDecorationLine: 'underline'}}>{translate("register.login")}</Text>

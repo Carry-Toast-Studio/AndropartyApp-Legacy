@@ -21,9 +21,11 @@
     "passwordEmpty": "Enter a password",
     "passwordWrong": "Enter a valid password (8+ characters)",
     "passwordFormat": "Password must contain uppercase and lowercase letters and a number",
-    "passwordMiss": "Login failed: wrong credentials",
+    "loginFailed": "Login failed: wrong credentials",
+    "loginFailedUnknown": "Login failed: try again later",
     "passwordsRepeat": "Passwords are not the same",
-    "accountExists": "An account with that email already exists"
+    "registerFailedExists": "An account with that email already exists",
+    "registerFailedUnknown": "Registration failed: try again later"
   },
   "tabnames": {
     "tab1": "Personal",
