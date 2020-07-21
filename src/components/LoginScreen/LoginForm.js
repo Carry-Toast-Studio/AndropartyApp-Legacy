@@ -9,8 +9,7 @@ import {
   TextInput,
   TouchableOpacity,
   TouchableHighlight,
-  Image,
-  Platform
+  Image
 } from 'react-native';
 import Validator from '../../utils/Validator';
 import {translate} from '../../translations/i18-helper';
@@ -121,7 +120,6 @@ export const LoginForm = ({setError, setIsLogin}) => {
           placeholder={translate("login.password")}
           placeholderTextColor={placeholderTextColor}
           secureTextEntry={hiddenPassword}
-          keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'visible-password'}
           textContentType="password"
           returnKeyType="go"
           style={styles.input}
@@ -294,7 +292,7 @@ export const RegisterForm = ({setError, setIsLogin}) => {
           placeholder={translate("register.repeat")}
           placeholderTextColor={placeholderTextColor}
           secureTextEntry={hiddenPassword}
-          textContentType="newPassword"
+          textContentType="password"
           returnKeyType="go"
           style={styles.input}
           blurOnSubmit={false}
