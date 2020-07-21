@@ -17,7 +17,7 @@ import ErrorImage from '../../assets/images/cross.png'
 
 
 // Login app view
-const LoginScreen = ({setUser}) => {
+const LoginScreen = () => {
 
   const [error, setError] = React.useState(null); // error in the form
   const [isLogin, setIsLogin] = React.useState(true); // true == login screen, false == register

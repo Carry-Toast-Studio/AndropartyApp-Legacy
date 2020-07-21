@@ -37,7 +37,7 @@ export const LoginForm = ({setError, setIsLogin}) => {
   }, [])
 
   function onSubmit () {
-    if (validateForm()) login()
+    if (!connecting && validateForm()) login()
   }
 
   function validateForm(){
@@ -186,7 +186,7 @@ export const RegisterForm = ({setError, setIsLogin}) => {
 
 
   function onSubmit () {
-    if (validateForm()) register()
+    if (!connecting && validateForm()) register()
   }
 
   function validateForm(){
