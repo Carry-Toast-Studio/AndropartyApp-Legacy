@@ -46,7 +46,7 @@ const LoginScreen = () => {
           </View>
 
           {/*Change opacity so that error it is always rendered and does not move other components when appearing*/}
-          <View style={{...styles.errorContainer, opacity: error ? 100 : 0}}>
+          <View style={{...styles.errorContainer, backgroundColor: 'pink', opacity: error ? 100 : 0}}>
               <Image style={styles.errorImage} source={ErrorImage}/>
               <Text style={styles.errorText}>{error}</Text>
           </View>
