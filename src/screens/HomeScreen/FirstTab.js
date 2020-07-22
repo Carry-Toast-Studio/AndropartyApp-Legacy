@@ -11,6 +11,7 @@ import {
   StatusBar,
   Dimensions,
   Image,
+  PlatformColor,
   TouchableOpacity,
 } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
@@ -25,7 +26,7 @@ const FirstTab = () => (
 
   <React.Fragment>
 
-    <Text>This is tab A</Text>
+    <Text style={styles.text}>This is tab A</Text>
 
     {
       // Enable floating android button only on Android
@@ -47,7 +48,19 @@ const FirstTab = () => (
 );
 
 const styles = StyleSheet.create({
-
+  text: {
+    ...Platform.select({
+      ios: {
+        color: PlatformColor('label')
+      },
+      android: {
+        color: 'black',
+      },
+      default: {
+        color: 'black',
+      }
+    })
+  },
   FloatingButtonStyle: { 
     width: 50,
     height: 50,
