@@ -9,10 +9,10 @@ import {
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import SplashScreen from 'react-native-splash-screen'
 import auth from '@react-native-firebase/auth';
 import LoginScreen from './src/screens/LoginScreen/LoginScreen';
 import HomeScreen from './src/screens/HomeScreen/HomeScreen';
-import Wallpaper from './src/components/Wallpaper';
 
 
 // Stack navigation (for navigation)
@@ -79,6 +79,7 @@ const App: () => React$Node = () => {
   }
 
   useEffect(() => {
+    SplashScreen.hide()
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, []);
