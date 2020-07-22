@@ -1,10 +1,10 @@
 import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
-import {setI18nConfig} from './src/translations/i18-helper';
+import {setI18nConfig, translate} from './src/translations/i18-helper';
 import {
   Platform,
   StyleSheet,
-  Button,
+  Button, Alert,
 } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { NavigationContainer } from '@react-navigation/native';
@@ -27,28 +27,55 @@ const App: () => React$Node = () => {
 
   // Handle user state changes
   function onAuthStateChanged(user) {
+    console.info("AUTH CHANGED: ", user)
     // Prevent deleted accounts from signing in
     if (user != null) checkAccountExists(user)
-    else {
-      setUser(user);
-      setInitializing(false)
-    }
+    setUser(user)
+    setInitializing(false)
   }
 
   function checkAccountExists(user){
     auth()
       .fetchSignInMethodsForEmail(user.email)
       // Everything went fine, sign in automatically
-      .then( (res) => {
+      .then( res => {
         // No auth methods were returned, sign out user
-        if (res.length === 0) auth().signOut()
-        else setUser(user);
+        if (res.length === 0) logout(true)
       })
-      // Ignore network errors and let the user browse the app
-      .catch( (error) => {
-        if (error.code === 'auth/network-request-failed') setUser(user)
+      .catch( error => {
+        // Ignore network errors and let the user browse the app
+        if (error.code !== 'auth/network-request-failed') {
+          logout(true)
+        }
       })
-      .finally ( () => setInitializing(false))
+  }
+
+  function logout (notify) {
+    auth().signOut().then( () => {
+        // If notify is absent or false, do a silent logout
+        if (notify) {
+          alert(translate('logout.logout'), translate('logout.message'));
+        }
+      })
+      .catch( error => {
+        if (error.code !== 'auth/no-current-user') {
+          alert(translate('errors.error'), translate('logout.message'));
+        }
+      })
+  }
+
+  function alert(title, message){
+    Alert.alert(
+      title,
+      message,
+      [
+        {
+          text: "Ok",
+          style: "default"
+        }
+      ],
+      {cancelable: false}
+    );
   }
 
   useEffect(() => {

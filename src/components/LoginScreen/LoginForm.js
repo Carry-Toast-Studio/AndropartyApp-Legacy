@@ -32,7 +32,10 @@ export const LoginForm = ({setError, setIsLogin}) => {
 
   useEffect( () => {
     // Remove error messages on component unmount
-    return () => setError(null)
+    return () => {
+      setError(null)
+      setConnecting(false)
+    }
   }, [])
 
   function onSubmit () {
@@ -68,6 +71,7 @@ export const LoginForm = ({setError, setIsLogin}) => {
       })
       // Error codes: https://firebase.google.com/docs/auth/admin/errors
       .catch(error => {
+        setConnecting(false)
         switch(error.code) {
           // Wrong credentials
           case 'auth/user-not-found':
@@ -83,7 +87,6 @@ export const LoginForm = ({setError, setIsLogin}) => {
             setError(translate("errors.loginFailedUnknown"))
         }
       })
-      .finally( () => setConnecting(false));
   }
 
   return (
@@ -145,7 +148,7 @@ export const LoginForm = ({setError, setIsLogin}) => {
         style={{...styles.submit, backgroundColor: connecting ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.4)'}}
         underlayColor="rgba(255,255,255,0.55)"
         disabled={connecting}
-        onPress={onSubmit}
+        onPress={() => auth().signOut()}
       >
         <Text style={styles.submitText}>{translate("login.submit").toUpperCase()}</Text>
       </TouchableHighlight>
@@ -179,7 +182,10 @@ export const RegisterForm = ({setError, setIsLogin}) => {
 
   useEffect( () => {
     // Remove error messages on component unmount
-    return () => setError(null)
+    return () => {
+      setError(null)
+      setConnecting(false)
+    }
   }, [])
 
 
@@ -217,6 +223,7 @@ export const RegisterForm = ({setError, setIsLogin}) => {
       })
       // Error codes: https://firebase.google.com/docs/auth/admin/errors
       .catch(error => {
+        setConnecting(false)
         switch(error.code) {
           // Email in use
           case 'auth/email-already-exists':
@@ -232,7 +239,6 @@ export const RegisterForm = ({setError, setIsLogin}) => {
             setError(translate("errors.registerFailedUnknown"))
         }
       })
-      .finally( () => setConnecting(false));
   }
 
   return (

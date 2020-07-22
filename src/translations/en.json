@@ -15,7 +15,12 @@
     "submit": "Create account",
     "login": "return to login"
   },
+  "logout": {
+    "logout": "You've been logged out",
+    "message": "Please log back in"
+  },
   "errors": {
+    "error": "An error occurred",
     "emailEmpty": "Enter an email address",
     "emailWrong": "Enter a valid email address",
     "passwordEmpty": "Enter a password",
