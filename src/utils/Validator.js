@@ -49,7 +49,7 @@ class Validator {
     })
 
     // Manually check format: uppercase, lowercase and numbers must be present. Reject emojis.
-    if (!errors && (!RegExp(/(?=.*[A-Z])(?=.*[a-z])(?=.*[2-9])/).test(password) || this.emojiRegExp.test(password)))
+    if (!errors && (!RegExp(/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])/).test(password) || this.emojiRegExp.test(password)))
       errors = {password: translate("errors.passwordFormat")}
 
     // Return the first of all errors found or true if all is ok
