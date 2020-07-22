@@ -147,7 +147,7 @@ export const LoginForm = ({setError, setIsLogin}) => {
         style={{...styles.submit, backgroundColor: connecting ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.4)'}}
         underlayColor="rgba(255,255,255,0.55)"
         disabled={connecting}
-        onPress={() => auth().signOut()}
+        onPress={onSubmit}
       >
         <Text style={styles.submitText}>{translate("login.submit").toUpperCase()}</Text>
       </TouchableHighlight>
