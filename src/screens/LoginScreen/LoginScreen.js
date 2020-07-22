@@ -4,7 +4,11 @@ import {
   StyleSheet,
   StatusBar,
   View,
+  KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback,
   Image,
+  Dimensions,
   Text
 } from 'react-native';
 import {LoginForm, RegisterForm} from '../../components/LoginScreen/LoginForm';
@@ -14,7 +18,6 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import Logo from '../../assets/images/logo.png';
 import ErrorImage from '../../assets/images/cross.png'
-
 
 // Login app view
 const LoginScreen = () => {
@@ -30,30 +33,35 @@ const LoginScreen = () => {
         backgroundColor = "darkorange"/>
 
       <Wallpaper />
-      <View style={styles.container}>
 
-        {/*Logo*/}
-        <View style={styles.logoContainer}>
-          <Image style={styles.logo} source={Logo} />
-          <Text style={styles.title}>{translate("app")}</Text>
-        </View>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <KeyboardAvoidingView 
+          style={styles.container}
+          behavior={Platform.OS == "ios" ? "padding" : "height"}>
 
-        {/*Change opacity so that error it is always rendered and does not move other components when appearing*/}
-        <View style={{...styles.errorContainer, opacity: error ? 100 : 0}}>
-            <Image style={styles.errorImage} source={ErrorImage}/>
-            <Text style={styles.errorText}>{error}</Text>
-        </View>
+          {/*Logo*/}
+          <View style={styles.logoContainer}>
+            <Image style={styles.logo} source={Logo} />
+            {/*<Text style={styles.title}>{translate("app")}</Text>*/}
+          </View>
 
-        {/*Form*/}
-        <View>
-          {
-            isLogin ?
-              <LoginForm setError={setError} setIsLogin={setIsLogin} /> :
-              <RegisterForm setError={setError} setIsLogin={setIsLogin} />
-          }
-        </View>
+          {/*Change opacity so that error it is always rendered and does not move other components when appearing*/}
+          <View style={{...styles.errorContainer, opacity: error ? 100 : 0}}>
+              <Image style={styles.errorImage} source={ErrorImage}/>
+              <Text style={styles.errorText}>{error}</Text>
+          </View>
 
-      </View>
+          {/*Form*/}
+          <View>
+            {
+              isLogin ?
+                <LoginForm setError={setError} setIsLogin={setIsLogin} /> :
+                <RegisterForm setError={setError} setIsLogin={setIsLogin} />
+            }
+          </View>
+
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
 
 
     </React.Fragment>
@@ -64,6 +72,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexGrow: 1,
+    justifyContent: 'flex-end', //To make  work properly
   },
   logoContainer: {
     alignItems: 'center',
@@ -71,8 +80,8 @@ const styles = StyleSheet.create({
     flexGrow: 1
   },
   logo: {
-    width: 280,
-    height: 280,
+    width: Dimensions.get('window').width*0.9,
+    height: Dimensions.get('window').width*0.9
   },
   title: {
     color: Colors.white,

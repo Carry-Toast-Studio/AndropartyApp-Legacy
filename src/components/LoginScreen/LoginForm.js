@@ -4,7 +4,6 @@ import auth from '@react-native-firebase/auth';
 import {
   StyleSheet,
   View,
-  KeyboardAvoidingView,
   Text,
   TextInput,
   TouchableOpacity,
@@ -87,7 +86,7 @@ export const LoginForm = ({setError, setIsLogin}) => {
   }
 
   return (
-    <KeyboardAvoidingView
+    <View
       behavior="padding"
       style={styles.container}>
 
@@ -161,7 +160,7 @@ export const LoginForm = ({setError, setIsLogin}) => {
           <Text style={{...styles.text, textDecorationLine: 'underline'}}>{translate("login.createAccount")}</Text>
         </TouchableHighlight>
       </View>
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 
@@ -236,8 +235,7 @@ export const RegisterForm = ({setError, setIsLogin}) => {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior="padding"
+    <View
       style={styles.container}>
 
       {/*Mail input*/}
@@ -327,7 +325,7 @@ export const RegisterForm = ({setError, setIsLogin}) => {
         </TouchableHighlight>
       </View>
 
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 
@@ -335,13 +333,13 @@ const inputHeight = 40;
 const inputGap = 10;
 const styles = StyleSheet.create({
   container: {
-    padding: 20
+    padding: 20,
   },
   hidden: {
     height: inputHeight,
     marginBottom: inputGap,
     paddingHorizontal: 10,
-    opacity: 0,
+    opacity: 10,
   },
   input: {
     height: inputHeight,
@@ -355,7 +353,7 @@ const styles = StyleSheet.create({
   submit: {
     backgroundColor: 'rgba(255,255,255,0.4)',
     paddingVertical: 15,
-    marginBottom: 30,
+    marginBottom: 15,
     borderRadius: 12
   },
   submitText: {
@@ -374,8 +372,10 @@ const styles = StyleSheet.create({
   signUp: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 45,
-
+    ...Platform.select({
+      ios: {marginBottom: 15},
+      android: {marginBottom: 35}
+    })
   },
   text: {
     color: 'white',
