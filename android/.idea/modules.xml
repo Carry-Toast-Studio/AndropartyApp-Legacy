@@ -2,7 +2,17 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AndropartyApp.iml" filepath="$PROJECT_DIR$/.idea/modules/AndropartyApp.iml" group="AndropartyApp" />
       <module fileurl="file://$PROJECT_DIR$/android.iml" filepath="$PROJECT_DIR$/android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="AndropartyApp/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1730256415/react-native-community_masked-view.iml" filepath="$PROJECT_DIR$/.idea/modules/-1730256415/react-native-community_masked-view.iml" group="AndropartyApp/react-native-community_masked-view" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1344266873/react-native-firebase_app.iml" filepath="$PROJECT_DIR$/.idea/modules/1344266873/react-native-firebase_app.iml" group="AndropartyApp/react-native-firebase_app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2024324592/react-native-firebase_auth.iml" filepath="$PROJECT_DIR$/.idea/modules/-2024324592/react-native-firebase_auth.iml" group="AndropartyApp/react-native-firebase_auth" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1154436630/react-native-gesture-handler.iml" filepath="$PROJECT_DIR$/.idea/modules/1154436630/react-native-gesture-handler.iml" group="AndropartyApp/react-native-gesture-handler" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/628089977/react-native-localize.iml" filepath="$PROJECT_DIR$/.idea/modules/628089977/react-native-localize.iml" group="AndropartyApp/react-native-localize" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-434742714/react-native-reanimated.iml" filepath="$PROJECT_DIR$/.idea/modules/-434742714/react-native-reanimated.iml" group="AndropartyApp/react-native-reanimated" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1963407615/react-native-safe-area-context.iml" filepath="$PROJECT_DIR$/.idea/modules/1963407615/react-native-safe-area-context.iml" group="AndropartyApp/react-native-safe-area-context" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-316212265/react-native-screens.iml" filepath="$PROJECT_DIR$/.idea/modules/-316212265/react-native-screens.iml" group="AndropartyApp/react-native-screens" />
     </modules>
   </component>
 </project>
