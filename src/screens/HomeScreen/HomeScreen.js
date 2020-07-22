@@ -8,6 +8,7 @@ import {
   View,
   StatusBar,
   Dimensions,
+  PlatformColor,
 } from 'react-native';
 import SegmentedControl from '@react-native-community/segmented-control';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
@@ -58,7 +59,7 @@ function HomeScreen() {
 
       <SafeAreaView>
 
-        <View style={{height: Dimensions.get('window').height, backgroundColor: Colors.lighter}}>
+        <View style={{...styles.container, height: Dimensions.get('window').height}}>
 
           {
             // Enable segmented control only on iOS
@@ -93,8 +94,17 @@ function HomeScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "black"
+    ...Platform.select({
+      ios: {
+        backgroundColor: PlatformColor('systemBackground')
+      },
+      android: {
+        backgroundColor: Colors.lighter,
+      },
+      default: {
+        backgroundColor: Colors.lighter,
+      }
+    })
   },
   scrollView: {
     backgroundColor: Colors.lighter,
