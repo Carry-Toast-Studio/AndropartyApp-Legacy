@@ -79,7 +79,10 @@ const App: () => React$Node = () => {
   }
 
   useEffect(() => {
-    SplashScreen.hide()
+  	// Launch Screen is not enabled on iOS
+  	if (Platform.OS != "ios"){
+  		SplashScreen.hide()
+  	}
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, []);
