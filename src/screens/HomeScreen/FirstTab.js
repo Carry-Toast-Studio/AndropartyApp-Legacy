@@ -43,12 +43,15 @@ function FirstTab(){
         style={{
           height: 100,
           backgroundColor: isActive ? "blue" : item.backgroundColor,
+          opacity: isActive ? 0.4 : 1.0,
           alignItems: "center",
           justifyContent: "center",
+          marginLeft: 20,
+          marginRight: 20,
           borderTopLeftRadius: (index == 0) ? 40 : 0, //Rounded corners for the first item
           borderTopRightRadius: (index == 0) ? 40 : 0 //Rounded corners for the first item
         }}
-        onLongPress={drag}
+        onPressIn={drag}
       >
         <Text
           style={{
@@ -71,7 +74,15 @@ function FirstTab(){
         renderItem={renderItem}
         keyExtractor={(item, index) => `draggable-item-${item.key}`}
         onDragEnd={({ data }) => setListData(data)}
-        style={{padding: 20}}
+        activationDistance={20} // To be able to switch tabs without gesture recognizer interfering
+        style={{
+          paddingTop: 20,
+          elevation: 5,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 0 },
+          shadowOpacity: 0.25,
+          shadowRadius: 10,  
+        }}
       />
 
       {
