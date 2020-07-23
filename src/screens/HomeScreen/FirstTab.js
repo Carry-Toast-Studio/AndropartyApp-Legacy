@@ -24,7 +24,7 @@ const TappedFAB = () => (
 
 // Data for DraggableFlatList
 
-const exampleData = [...Array(20)].map((d, index) => ({
+const exampleData = [...Array(200)].map((d, index) => ({
   key: `item-${index}`, // For example only -- don't use index as your key!
   label: index,
   backgroundColor: `rgb(${Math.floor(Math.random() * 255)}, ${index *
@@ -45,8 +45,8 @@ function FirstTab(){
           backgroundColor: isActive ? "blue" : item.backgroundColor,
           alignItems: "center",
           justifyContent: "center",
-          borderTopLeftRadius: (index == 0) ? 30 : 0, //Rounded corners for the first item
-          borderTopRightRadius: (index == 0) ? 30 : 0 //Rounded corners for the first item
+          borderTopLeftRadius: (index == 0) ? 40 : 0, //Rounded corners for the first item
+          borderTopRightRadius: (index == 0) ? 40 : 0 //Rounded corners for the first item
         }}
         onLongPress={drag}
       >
@@ -70,7 +70,7 @@ function FirstTab(){
         data={listData}
         renderItem={renderItem}
         keyExtractor={(item, index) => `draggable-item-${item.key}`}
-        onDragEnd={({ data }) => setListData({listData})}
+        onDragEnd={({ data }) => setListData(data)}
         style={{padding: 20}}
       />
 
