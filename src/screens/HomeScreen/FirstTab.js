@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import DraggableFlatList from "react-native-draggable-flatlist";
+import {RowItem} from '../../components/FlatListComponents/RowItem';
 
 // This function is called whenever you tap the floating action button
 const TappedFAB = () => (
@@ -39,30 +40,12 @@ function FirstTab(){
 
   renderItem = ({ item, index, drag, isActive }) => {
     return (
-      <TouchableOpacity
-        style={{
-          height: 100,
-          backgroundColor: isActive ? "blue" : item.backgroundColor,
-          opacity: isActive ? 0.4 : 1.0,
-          alignItems: "center",
-          justifyContent: "center",
-          marginLeft: 20,
-          marginRight: 20,
-          borderTopLeftRadius: (index == 0) ? 40 : 0, //Rounded corners for the first item
-          borderTopRightRadius: (index == 0) ? 40 : 0 //Rounded corners for the first item
-        }}
-        onPressIn={drag}
-      >
-        <Text
-          style={{
-            fontWeight: "bold",
-            color: "white",
-            fontSize: 32
-          }}
-        >
-          {item.label}
-        </Text>
-      </TouchableOpacity>
+      <RowItem
+        item={item}
+        index={index}
+        drag={drag}
+        isActive={isActive}
+      />
     );
   };
 
