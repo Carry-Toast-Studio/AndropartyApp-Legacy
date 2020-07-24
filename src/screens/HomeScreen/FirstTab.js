@@ -28,6 +28,7 @@ const TappedFAB = () => (
 const exampleData = [...Array(200)].map((d, index) => ({
   key: `item-${index}`, // For example only -- don't use index as your key!
   label: index,
+  header: (index %10 == 0) ? true : false,
   backgroundColor: `rgb(${Math.floor(Math.random() * 255)}, ${index *
     5}, ${132})`
 }));
@@ -57,7 +58,7 @@ function FirstTab(){
         renderItem={renderItem}
         keyExtractor={(item, index) => `draggable-item-${item.key}`}
         onDragEnd={({ data }) => setListData(data)}
-        activationDistance={20} // To be able to switch tabs without gesture recognizer interfering
+        activationDistance={0} // To be able to switch tabs without gesture recognizer interfering
         style={{
           paddingTop: 20,
           elevation: 5,

@@ -19,7 +19,7 @@ export const RowItem = ({item, index, drag, isActive}) => {
       style={{
         ...style=styles.rowContainer,
         //backgroundColor: isActive ? "blue" : item.backgroundColor,
-        opacity: isActive ? 0.4 : 1.0,
+        opacity: isActive ? 0.8 : 1.0,
         borderTopLeftRadius: (index == 0) ? 40 : 0, //Rounded corners for the first item
         borderTopRightRadius: (index == 0) ? 40 : 0 //Rounded corners for the first item
       }}
@@ -35,12 +35,17 @@ export const RowItem = ({item, index, drag, isActive}) => {
         {item.label}
       </Text>
 
-      <TouchableOpacity
-        onPressIn={drag}
-      >
-        <Text style={{color: 'white'}}>Drag me!</Text>
-      </TouchableOpacity>
 
+      {/* Display drag button only if the rowItem is NOT a header */}
+      {!item.header ? 
+        <TouchableOpacity
+          onPressIn={drag}
+        >
+          <Text style={{color: 'white'}}>Drag me!</Text>
+        </TouchableOpacity>
+        :null
+      }
+      
     </View>
 
   );
