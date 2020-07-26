@@ -1,5 +1,12 @@
 apply plugin: "com.android.application"
-apply plugin: 'com.google.gms.google-services'
+apply plugin: "com.google.gms.google-services"
+
+// React native vector icons
+project.ext.vectoricons = [
+    iconFontNames: [ 'MaterialIcons.ttf', 'FontAwesome.ttf', 'FontAwesome5_Regular.ttf', 'FontAwesome5_Solid.ttf' ] // Name of the font files
+]
+
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 import com.android.build.OutputFile
 

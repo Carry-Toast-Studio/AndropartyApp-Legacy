@@ -4,6 +4,7 @@ import {
   Platform,
   StyleSheet,
   View,
+  SafeAreaView,
   Image,
   PlatformColor,
   TouchableOpacity,
@@ -18,7 +19,7 @@ const TappedFAB = () => (
 
 // Data for DraggableFlatList
 
-const exampleData = [...Array(200)].map((d, index) => ({
+const exampleData = [...Array(10)].map((d, index, arr) => ({
   key: `item-${index}`, // For example only -- don't use index as your key!
   label: index,
   header: (index % 10 === 0),
@@ -32,13 +33,14 @@ function FirstTab(){
 
   const [listData, setListData] = useState(exampleData);
 
-  renderItem = ({ item, index, drag, isActive }) => {
+  const renderItem = ({ item, index, drag, isActive }) => {
     return (
       <RowItem
         item={item}
         index={index}
         drag={drag}
         isActive={isActive}
+        data={listData}
       />
     );
   };
@@ -46,21 +48,26 @@ function FirstTab(){
   return(
     <React.Fragment>
 
-      <DraggableFlatList
-        data={listData}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => `draggable-item-${item.key}`}
-        onDragEnd={({ data }) => setListData(data)}
-        activationDistance={5} // To be able to switch tabs without gesture recognizer interfering
-        style={{
-          paddingTop: 20,
-          elevation: 5,
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 0 },
-          shadowOpacity: 0.25,
-          shadowRadius: 10,
-        }}
-      />
+      {
+        listData && listData.length >= 1 &&
+        <SafeAreaView style={{flex: 1, flexGrow: 1, backgroundColor: 'yellow'}}>
+          <DraggableFlatList
+            data={listData}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => `draggable-item-${item.key}`}
+            onDragEnd={({ data }) => setListData(data)}
+            activationDistance={5} // To be able to switch tabs without gesture recognizer interfering
+            style={{
+              // paddingVertical: 20,
+              elevation: 5,
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 0 },
+              shadowOpacity: 0.25,
+              shadowRadius: 10,
+            }}
+          />
+        </SafeAreaView>
+      }
 
       {
         // Enable floating android button only on Android

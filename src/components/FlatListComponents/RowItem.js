@@ -1,27 +1,30 @@
 import 'react-native-gesture-handler';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {
   StyleSheet,
   View,
   Text,
-  TextInput,
-  TouchableOpacity,
-  TouchableHighlight,
-  Image
+  TouchableOpacity
 } from 'react-native';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+
 
 
 // Register app view
-export const RowItem = ({item, index, drag, isActive}) => {
+export const RowItem = ({item, index, drag, isActive, data}) => {
+
   return(
     <View
       style={{
-        ...style=styles.rowContainer,
-        //backgroundColor: isActive ? "blue" : item.backgroundColor,
+        ...styles.rowContainer,
+        backgroundColor: item.header ? "blue" : "red",
         opacity: isActive ? 0.8 : 1.0,
-        borderTopLeftRadius: (index == 0) ? 40 : 0, //Rounded corners for the first item
-        borderTopRightRadius: (index == 0) ? 40 : 0 //Rounded corners for the first item
+        // marginBottom: (index === data.length - 1 && !active) ? 100 : 0,
+        borderTopLeftRadius: (index === 0) ? 40 : 0, //Rounded corners for the first item
+        borderTopRightRadius: (index === 0) ? 40 : 0,
+        borderBottomLeftRadius: (index === data.length - 1) ? 40 : 0, //Rounded corners for the last item
+        borderBottomRightRadius: (index === data.length - 1) ? 40 : 0,
       }}
     >
 
@@ -37,15 +40,16 @@ export const RowItem = ({item, index, drag, isActive}) => {
 
 
       {/* Display drag button only if the rowItem is NOT a header */}
-      {!item.header ? 
+      {!item.header ?
         <TouchableOpacity
           onPressIn={drag}
         >
-          <Text style={{color: 'white'}}>Drag me!</Text>
+          <View style={styles.handlerContainer}>
+            <MaterialIcon name="drag-handle" size={25} color="white" />
+          </View>
         </TouchableOpacity>
         :null
       }
-      
     </View>
 
   );
@@ -63,4 +67,8 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
   },
+  handlerContainer: {
+    backgroundColor: 'blue',
+    padding: 15
+  }
 });

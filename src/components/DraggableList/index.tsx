@@ -929,13 +929,14 @@ class DraggableFlatList<T> extends React.Component<Props<T>, State> {
                 {...dynamicProps}
             >
                 <Animated.View
-                    style={styles.flex}
+                    style={styles.animatedView}
                     ref={this.containerRef}
                     onLayout={this.onContainerLayout}
                     onTouchEnd={this.onContainerTouchEnd}
                 >
                     <AnimatedFlatList
                         {...this.props}
+                        style={styles.animatedFlatList}
                         CellRendererComponent={this.CellRendererComponent}
                         ref={this.flatlistRef}
                         onContentSizeChange={this.onListContentSizeChange}
@@ -1033,14 +1034,22 @@ const styles = StyleSheet.create({
     flex: {
         flex: 1
     },
+    animatedView: {
+        flex: 1,
+        flexGrow: 1,
+    },
+    animatedFlatList: {
+        paddingTop: 20,
+        position: 'relative', // Allow dragged items to be shown above the rest
+    },
     hoverComponentVertical: {
         position: "absolute",
         left: 0,
-        right: 0
+        right: 0,
     },
     hoverComponentHorizontal: {
         position: "absolute",
         bottom: 0,
-        top: 0
+        top: 0,
     }
 });
