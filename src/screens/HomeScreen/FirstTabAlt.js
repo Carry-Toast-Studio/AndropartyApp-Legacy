@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, {createRef} from 'react';
 import {
   Platform,
   StyleSheet,
@@ -11,7 +11,9 @@ import {
   FlatList,
   Text,
   PanResponder,
-  Animated, Dimensions,
+  Animated,
+  Dimensions,
+  Button
 } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
@@ -60,12 +62,13 @@ export default class FirstTab extends React.Component {
   state={
     dragging: false,
     draggingIndex: -1,
-    data: Array.from(Array(20), (_, index) => {
+    data: Array.from(Array(50), (_, index) => {
       colorMap[index] = getRandomColor()
       return index;
     })
   }
 
+  flatList = createRef() // Ref to the flatlist component
   point = new Animated.ValueXY() // Current finger position
   currentY = 0 // Y coordinate of cursor movement
   flatListOffset = 0 // Vertical offset of the flatlist (list top coordinate, updated on component render)
@@ -73,6 +76,9 @@ export default class FirstTab extends React.Component {
   rowHeight = 0
   currentIndex = -1 // Index of the currently dragged item
   active = false
+  flatListHeight = 0
+  autoScrollThreshold = 40 // Units away from the top/bottom edge that allow auto-scrolling while dragging an item
+  autoScrollSpeed = 25 // Units to scroll each frame the auto scroll is enabled
 
   constructor(props) {
     super(props);
@@ -130,6 +136,23 @@ export default class FirstTab extends React.Component {
   }
 
   animateList = () => {
+    // Check if we are near the bottom or top of the list
+    if (this.currentY + this.autoScrollThreshold > this.flatListHeight){
+      const diff = this.currentY + this.autoScrollThreshold - this.flatListHeight
+      this.flatList.current.scrollToOffset({
+        offset: this.scrollOffset + Math.min(this.autoScrollSpeed, diff),
+        animated: false
+      })
+    }
+    else if (this.currentY < this.autoScrollThreshold){
+      const diff = this.currentY < this.autoScrollThreshold
+      this.flatList.current.scrollToOffset({
+        offset: this.scrollOffset - Math.min(this.autoScrollSpeed, diff),
+        animated: false
+      })
+    }
+
+
     if (!this.active) return
 
     // Recursively animate list each frame
@@ -207,7 +230,7 @@ export default class FirstTab extends React.Component {
             style={{
               position: 'absolute',
               zIndex: 2,
-              width: '100%', height: rowHeight,
+              width: '100%', height: this.rowHeight,
               marginLeft: 20,
               marginRight: 20,
               top: this.point.getLayout().top,
@@ -218,6 +241,7 @@ export default class FirstTab extends React.Component {
 
           {/*Flatlist with all items*/}
           <FlatList
+            ref={this.flatList}
             style={styles.flatList}
             data={data}
             scrollEnabled={!dragging}
@@ -228,6 +252,7 @@ export default class FirstTab extends React.Component {
             }}
             onLayout={ e => {
               this.flatListOffset = e.nativeEvent.layout.y
+              this.flatListHeight = e.nativeEvent.layout.height
             }}
             scrollEventThrottle={16}
           />
@@ -310,5 +335,4 @@ const styles = StyleSheet.create({
     right: 10,
     position: 'absolute',
   }
-
 });
