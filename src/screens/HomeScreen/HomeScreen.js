@@ -14,7 +14,7 @@ import SegmentedControl from '@react-native-community/segmented-control';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 
-import FirstTab from './FirstTab'
+import FirstTab from './FirstTabAlt'
 import SecondTab from './SecondTab'
 
 

@@ -19,6 +19,7 @@ import HomeScreen from './src/screens/HomeScreen/HomeScreen';
 const Stack = createStackNavigator();
 
 // Main app
+// @ts-ignore
 const App: () => React$Node = () => {
 
   // Set an initializing state whilst Firebase connects
