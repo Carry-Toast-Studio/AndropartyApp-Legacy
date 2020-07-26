@@ -35,7 +35,7 @@ const LoginScreen = () => {
       <Wallpaper />
 
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <KeyboardAvoidingView 
+        <KeyboardAvoidingView
           style={styles.container}
           behavior={Platform.OS == "ios" ? "padding" : "height"}>
 
@@ -46,7 +46,7 @@ const LoginScreen = () => {
           </View>
 
           {/*Change opacity so that error it is always rendered and does not move other components when appearing*/}
-          <View style={{...styles.errorContainer, opacity: error ? 100 : 0}}>
+          <View style={{...styles.errorContainer, opacity: error ? 1 : 0}}>
               <Image style={styles.errorImage} source={ErrorImage}/>
               <Text style={styles.errorText}>{error}</Text>
           </View>

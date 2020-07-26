@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, {useState} from 'react';
+import React from 'react';
 import {
   Platform,
   StyleSheet,
@@ -30,6 +30,27 @@ function getRandomColor() {
   return color;
 }
 
+function reorderArray(arr, from, to) {
+  return arr.reduce((prev, current, idx, self) => {
+    if (from === to) {
+      prev.push(current);
+    }
+    if (idx === from) {
+      return prev;
+    }
+    if (from < to) {
+      prev.push(current);
+    }
+    if (idx === to) {
+      prev.push(self[from]);
+    }
+    if (from > to) {
+      prev.push(current);
+    }
+    return prev;
+  }, []);
+}
+
 const colorMap = {}
 
 
@@ -38,6 +59,7 @@ export default class FirstTab extends React.Component {
 
   state={
     dragging: false,
+    draggingIndex: -1,
     data: Array.from(Array(20), (_, index) => {
       colorMap[index] = getRandomColor()
       return index;
@@ -45,6 +67,12 @@ export default class FirstTab extends React.Component {
   }
 
   point = new Animated.ValueXY() // Current finger position
+  currentY = 0 // Y coordinate of cursor movement
+  flatListOffset = 0 // Vertical offset of the flatlist (list top coordinate, updated on component render)
+  scrollOffset = 0 // Scroll offset updated as scroll happens
+  rowHeight = 0
+  currentIndex = -1 // Index of the currently dragged item
+  active = false
 
   constructor(props) {
     super(props);
@@ -58,79 +86,152 @@ export default class FirstTab extends React.Component {
       onPanResponderTerminationRequest: (evt, gestureState) => false,
 
       onPanResponderGrant: (evt, gestureState) => {
-        // The gesture has started.
-        this.setState({dragging: true})
+        // The gesture has started, compute select item index
+        this.currentIndex = this.getIndexFromY(gestureState.y0)
+        // Update y position of the move
+        this.currentY = gestureState.y0
+        // Send first event
+        Animated.event(
+          [{y: this.point.y}],
+          {useNativeDriver: false}
+        )({y: gestureState.y0 - this.rowHeight / 2})
+        // Update state and start to animate the list
+        this.active = true
+        this.setState({
+          dragging: true,
+          draggingIndex: this.currentIndex
+        }, () => this.animateList())
       },
       onPanResponderMove: (evt, gestureState) => {
-        // The most recent move distance is gestureState.move{X,Y}
-        // The accumulated gesture distance since becoming responder is
-        // gestureState.d{x,y}
-        Animated.event([{y: this.point.y}], {useNativeDriver: false})({y: gestureState.moveY})
+        // Update y position of the move
+        this.currentY = gestureState.moveY
+        // Send move event
+        Animated.event(
+          [{y: this.point.y}],
+          {useNativeDriver: false}
+        )({y: gestureState.moveY})
       },
       onPanResponderRelease: (evt, gestureState) => {
         // The user has released all touches while this view is the
         // responder. This typically means a gesture has succeeded
-        this.setState({dragging: false})
+        this.reset()
       },
       onPanResponderTerminate: (evt, gestureState) => {
         // Another component has become the responder, so this gesture
         // should be cancelled
-        this.setState({dragging: false})
+        this.reset()
       },
       onShouldBlockNativeResponder: (evt, gestureState) => {
         // Returns whether this component should block native components from becoming the JS
         // responder. Returns true by default. Is currently only supported on android.
-        return true;
+        return true
       }
     });
   }
 
-  render() {
-    const {data, dragging} = this.state
+  animateList = () => {
+    if (!this.active) return
 
-    const renderItem = ({ item }) => (
-        <View style={{
+    // Recursively animate list each frame
+    requestAnimationFrame( () => {
+      // Check Y value to see  if we need to reorder the list
+      const newIndex = this.getIndexFromY(this.currentY)
+      if (this.currentIndex !== newIndex) {
+        this.setState({
+          // Reorder the list
+          data: reorderArray(this.state.data, this.currentIndex, newIndex),
+          draggingIndex: newIndex
+        })
+
+        this.currentIndex = newIndex
+      }
+
+      this.animateList()
+    })
+  }
+
+  getIndexFromY = (y) => {
+    const value = Math.floor((this.scrollOffset + y - this.flatListOffset) / this.rowHeight)
+
+    if (value < 0) return 0
+    if (value >= this.state.data.length) return this.state.data.length - 1
+
+    return value
+  }
+
+  reset = () => {
+    this.active = false
+
+    this.setState({
+      dragging: false,
+      draggingIndex: -1
+    })
+  }
+
+  render() {
+    const {data, dragging, draggingIndex} = this.state
+
+    const renderItem = ({ item, index }, noPanResponder) => (
+        <SafeAreaView
+          onLayout={ e => {
+            this.rowHeight = e.nativeEvent.layout.height
+          }}
+          style={{
           ...styles.listRow,
-          borderTopLeftRadius: item === 0 ? 40 : 0,
-          borderTopRightRadius: item === 0 ? 40 : 0,
+          borderTopLeftRadius: index === 0 ? 40 : 0,
+          borderTopRightRadius: index === 0 ? 40 : 0,
+          opacity: draggingIndex === index ? 0 : 1, // hide selected item ehile dragging
           backgroundColor: colorMap[item]
         }}>
           <Text style={styles.rowText}>{item}</Text>
 
-          <View
+          { // Simulate headers
+            index % 10 !== 0 &&
+            <View
             style={styles.rowHandler}
-            {...this.panResponder.panHandlers}
-          >
-            <MaterialIcon name="drag-handle" size={35} color="white"/>
-          </View>
-        </View>
+            {...(noPanResponder ? {} : this.panResponder.panHandlers)}
+            >
+              <MaterialIcon name="drag-handle" size={35} color="white"/>
+            </View>
+          }
+        </SafeAreaView>
     )
 
 
     return(
       <React.Fragment>
-        <SafeAreaView style={styles.container}>
-          <Animated.View
+        <View style={styles.container}>
+          {/*Floating Item being dragged*/}
+          { dragging &&
+            <Animated.View
             style={{
               position: 'absolute',
-              backgroundColor: 'black', zIndex: 2,
-              width: rowWidth, height: rowHeight,
-              borderStyle: 'solid',
-              borderWidth: 5,
-              borderColor: 'blue',
-              top: this.point.getLayout().top
+              zIndex: 2,
+              width: '100%', height: rowHeight,
+              marginLeft: 20,
+              marginRight: 20,
+              top: this.point.getLayout().top,
             }}
           >
-            {renderItem( {item: 3} )}
-          </Animated.View>
+            {renderItem({item: data[draggingIndex], index: -1}, true)}
+          </Animated.View>}
+
+          {/*Flatlist with all items*/}
           <FlatList
             style={styles.flatList}
             data={data}
             scrollEnabled={!dragging}
             renderItem={renderItem}
             keyExtractor={ item => item.toString() }
+            onScroll={ e => {
+              this.scrollOffset = e.nativeEvent.contentOffset.y
+            }}
+            onLayout={ e => {
+              this.flatListOffset = e.nativeEvent.layout.y
+            }}
+            scrollEventThrottle={16}
           />
-        </SafeAreaView>
+        </View>
 
 
         {
@@ -168,10 +269,13 @@ const styles = StyleSheet.create({
   },
   flatList: {
     paddingVertical: 20,
-    width: rowWidth,
+    width: '100%',
   },
   listRow: {
-    padding: 18,
+    paddingLeft: 40,
+    paddingRight: 40,
+    marginLeft: 20,
+    marginRight: 20,
     height: rowHeight,
     flex: 1,
     flexDirection: 'row',
