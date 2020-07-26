@@ -27,7 +27,6 @@ const App: () => React$Node = () => {
 
   // Handle user state changes
   function onAuthStateChanged(user) {
-    console.info("AUTH CHANGED: ", user)
     // Prevent deleted accounts from signing in
     if (user != null) checkAccountExists(user)
     setUser(user)

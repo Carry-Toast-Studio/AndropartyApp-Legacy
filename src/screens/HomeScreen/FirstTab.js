@@ -1,21 +1,14 @@
 import 'react-native-gesture-handler';
-import React, {useEffect, useState} from 'react';
-import {translate, setI18nConfig} from '../../translations/i18-helper';
+import React, {useState} from 'react';
 import {
-  SafeAreaView,
   Platform,
   StyleSheet,
-  ScrollView,
   View,
-  Text,
-  StatusBar,
-  Dimensions,
   Image,
   PlatformColor,
   TouchableOpacity,
 } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import DraggableFlatList from "react-native-draggable-flatlist";
+import DraggableFlatList from '../../components/DraggableList/index';
 import {RowItem} from '../../components/FlatListComponents/RowItem';
 
 // This function is called whenever you tap the floating action button
@@ -28,7 +21,7 @@ const TappedFAB = () => (
 const exampleData = [...Array(200)].map((d, index) => ({
   key: `item-${index}`, // For example only -- don't use index as your key!
   label: index,
-  header: (index %10 == 0) ? true : false,
+  header: (index % 10 === 0),
   backgroundColor: `rgb(${Math.floor(Math.random() * 255)}, ${index *
     5}, ${132})`
 }));
@@ -58,14 +51,14 @@ function FirstTab(){
         renderItem={renderItem}
         keyExtractor={(item, index) => `draggable-item-${item.key}`}
         onDragEnd={({ data }) => setListData(data)}
-        activationDistance={0} // To be able to switch tabs without gesture recognizer interfering
+        activationDistance={5} // To be able to switch tabs without gesture recognizer interfering
         style={{
           paddingTop: 20,
           elevation: 5,
           shadowColor: '#000',
           shadowOffset: { width: 0, height: 0 },
           shadowOpacity: 0.25,
-          shadowRadius: 10,  
+          shadowRadius: 10,
         }}
       />
 
@@ -73,12 +66,12 @@ function FirstTab(){
         // Enable floating android button only on Android
         Platform.OS === 'android' ?
           <View style={styles.FloatingButtonStyle}>
-            <TouchableOpacity 
-              activeOpacity={0.5} 
-              onPress={TappedFAB} 
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={TappedFAB}
               style={styles.TouchableOpacityStyle} >
-                <Image 
-                  source={{uri : 'https://reactnativecode.com/wp-content/uploads/2017/11/Floating_Button.png'}} 
+                <Image
+                  source={{uri : 'https://reactnativecode.com/wp-content/uploads/2017/11/Floating_Button.png'}}
                   style={styles.FloatingButtonStyle} />
             </TouchableOpacity>
           </View> :
@@ -103,11 +96,11 @@ const styles = StyleSheet.create({
       }
     })
   },
-  FloatingButtonStyle: { 
+  FloatingButtonStyle: {
     width: 50,
     height: 50,
-    bottom: 25,                                                    
-    right: 10, 
+    bottom: 25,
+    right: 10,
     position: 'absolute',
   }
 
