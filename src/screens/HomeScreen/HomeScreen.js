@@ -19,7 +19,7 @@ import SecondTab from './SecondTab'
 
 
 // Initial layout for tab views
-const initialLayout = { width: Dimensions.get('window').width };
+const initialLayout = { width: Dimensions.get('window').width};
 
 // Full app view (sans top appbar/navigation bar)
 function HomeScreen() {
@@ -43,11 +43,14 @@ function HomeScreen() {
                   {...props}
                   style={{ height: 0 }}
                 />,
-      android: () =>  <TabBar
-                        {...props}
-                        indicatorStyle={{ backgroundColor: 'white' }}
-                        style={{ backgroundColor: 'orange'}}
-                      />,
+      android: () =>
+        <View>
+          <TabBar
+            {...props}
+            indicatorStyle={{ backgroundColor: 'white' }}
+            style={{ backgroundColor: 'orange'}}
+          />
+        </View>
     })()
   );
 

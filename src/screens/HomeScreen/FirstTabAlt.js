@@ -13,7 +13,7 @@ import {
   PanResponder,
   Animated,
   Dimensions,
-  Button
+  StatusBar
 } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
@@ -62,23 +62,27 @@ export default class FirstTab extends React.Component {
   state={
     dragging: false,
     draggingIndex: -1,
-    data: Array.from(Array(50), (_, index) => {
+    data: Array.from(Array(40), (_, index) => {
       colorMap[index] = getRandomColor()
       return index;
     })
   }
 
+  panResponder;
   flatList = createRef() // Ref to the flatlist component
   point = new Animated.ValueXY() // Current finger position
-  currentY = 0 // Y coordinate of cursor movement
+  currentY = -1 // Y coordinate of cursor movement
   flatListOffset = 0 // Vertical offset of the flatlist (list top coordinate, updated on component render)
   scrollOffset = 0 // Scroll offset updated as scroll happens
   rowHeight = 0
   currentIndex = -1 // Index of the currently dragged item
   active = false
-  flatListHeight = 0
-  autoScrollThreshold = 40 // Units away from the top/bottom edge that allow auto-scrolling while dragging an item
+  flatListHeight = -1
+  autoScrollThreshold = 45 // Units away from the top/bottom edge that allow auto-scrolling while dragging an item
   autoScrollSpeed = 25 // Units to scroll each frame the auto scroll is enabled
+  handlerHeight = 0
+  tabBarHeight = 0
+  containerHeight = 0
 
   constructor(props) {
     super(props);
@@ -90,19 +94,21 @@ export default class FirstTab extends React.Component {
       onMoveShouldSetPanResponder: (evt, gestureState) => true,
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
       onPanResponderTerminationRequest: (evt, gestureState) => false,
+      onShouldBlockNativeResponder: (evt, gestureState) => true,
+
 
       onPanResponderGrant: (evt, gestureState) => {
-        // The gesture has started, compute select item index
-        this.currentIndex = this.getIndexFromY(gestureState.y0)
-        // Update y position of the move
-        this.currentY = gestureState.y0
+        this.active = true
         // Send first event
         Animated.event(
           [{y: this.point.y}],
           {useNativeDriver: false}
-        )({y: gestureState.y0 - this.rowHeight / 2})
+        )({y: gestureState.y0 - this.rowHeight / 2 - this.tabBarHeight - StatusBar.currentHeight})
+        // The gesture has started, compute select item index
+        this.currentIndex = this.getIndexFromY(gestureState.y0)
+        // Update y position of the move
+        this.currentY = gestureState.y0
         // Update state and start to animate the list
-        this.active = true
         this.setState({
           dragging: true,
           draggingIndex: this.currentIndex
@@ -115,66 +121,54 @@ export default class FirstTab extends React.Component {
         Animated.event(
           [{y: this.point.y}],
           {useNativeDriver: false}
-        )({y: gestureState.moveY})
+        )({y: gestureState.moveY - this.rowHeight / 2 - this.tabBarHeight - StatusBar.currentHeight})
       },
-      onPanResponderRelease: (evt, gestureState) => {
-        // The user has released all touches while this view is the
-        // responder. This typically means a gesture has succeeded
-        this.reset()
-      },
-      onPanResponderTerminate: (evt, gestureState) => {
-        // Another component has become the responder, so this gesture
-        // should be cancelled
-        this.reset()
-      },
-      onShouldBlockNativeResponder: (evt, gestureState) => {
-        // Returns whether this component should block native components from becoming the JS
-        // responder. Returns true by default. Is currently only supported on android.
-        return true
-      }
+      onPanResponderRelease: (evt, gestureState) => this.reset(),
+      onPanResponderTerminate: (evt, gestureState) => this.reset(),
     });
   }
 
   animateList = () => {
-    // Check if we are near the bottom or top of the list
-    if (this.currentY + this.autoScrollThreshold > this.flatListHeight){
-      const diff = this.currentY + this.autoScrollThreshold - this.flatListHeight
-      this.flatList.current.scrollToOffset({
-        offset: this.scrollOffset + Math.min(this.autoScrollSpeed, diff),
-        animated: false
-      })
-    }
-    else if (this.currentY < this.autoScrollThreshold){
-      const diff = this.currentY < this.autoScrollThreshold
-      this.flatList.current.scrollToOffset({
-        offset: this.scrollOffset - Math.min(this.autoScrollSpeed, diff),
-        animated: false
-      })
-    }
-
-
     if (!this.active) return
 
-    // Recursively animate list each frame
-    requestAnimationFrame( () => {
-      // Check Y value to see  if we need to reorder the list
-      const newIndex = this.getIndexFromY(this.currentY)
-      if (this.currentIndex !== newIndex) {
-        this.setState({
-          // Reorder the list
-          data: reorderArray(this.state.data, this.currentIndex, newIndex),
-          draggingIndex: newIndex
-        })
+    requestAnimationFrame(() => {
+      if (this.currentY !== -1 && this.flatListHeight !== -1) {
+        if (this.currentY + this.autoScrollThreshold > this.flatListHeight) {
+          const diff = this.currentY + this.autoScrollThreshold - this.flatListHeight
+          this.flatList.current.scrollToOffset({
+            offset: this.scrollOffset + Math.min(this.autoScrollSpeed, diff),
+            animated: false
+          });
+        } else if (this.currentY < this.autoScrollThreshold) {
+          const diff = Math.abs(this.currentY - this.autoScrollThreshold)
+          this.flatList.current.scrollToOffset({
+            offset: this.scrollOffset - Math.min(this.autoScrollSpeed, diff),
+            animated: false
+          });
+        }
 
-        this.currentIndex = newIndex
+        const newIndex = this.getIndexFromY(this.currentY);
+        if (this.currentIndex !== newIndex) {
+          const data = reorderArray(this.state.data, this.currentIndex, newIndex);
+          this.setState({
+            draggingIndex: newIndex,
+            data
+          });
+          this.currentIndex = newIndex;
+        }
       }
 
-      this.animateList()
-    })
+      this.animateList();
+    });
   }
 
   getIndexFromY = (y) => {
-    const value = Math.floor((this.scrollOffset + y - this.flatListOffset) / this.rowHeight)
+    const value = Math.floor((this.scrollOffset + y - this.flatListOffset
+      - StatusBar.currentHeight // Status bar
+      - this.tabBarHeight // TabBar
+      - this.handlerHeight // Handler icon
+      )
+      / this.rowHeight)
 
     if (value < 0) return 0
     if (value >= this.state.data.length) return this.state.data.length - 1
@@ -189,6 +183,8 @@ export default class FirstTab extends React.Component {
       dragging: false,
       draggingIndex: -1
     })
+
+    this.currentY = -1
   }
 
   render() {
@@ -203,7 +199,7 @@ export default class FirstTab extends React.Component {
           ...styles.listRow,
           borderTopLeftRadius: index === 0 ? 40 : 0,
           borderTopRightRadius: index === 0 ? 40 : 0,
-          opacity: draggingIndex === index ? 0 : 1, // hide selected item ehile dragging
+          opacity: draggingIndex === index ? 0 : 1, // hide selected item while dragging
           backgroundColor: colorMap[item]
         }}>
           <Text style={styles.rowText}>{item}</Text>
@@ -213,8 +209,9 @@ export default class FirstTab extends React.Component {
             <View
             style={styles.rowHandler}
             {...(noPanResponder ? {} : this.panResponder.panHandlers)}
+            onLayout={ e => this.handlerHeight === 0 && (this.handlerHeight = e.nativeEvent.layout.height)}
             >
-              <MaterialIcon name="drag-handle" size={35} color="white"/>
+              <MaterialIcon name="drag-handle" size={45} color="white"/>
             </View>
           }
         </SafeAreaView>
@@ -223,7 +220,13 @@ export default class FirstTab extends React.Component {
 
     return(
       <React.Fragment>
-        <View style={styles.container}>
+        <SafeAreaView
+          style={styles.container}
+          onLayout={ e => {
+            this.containerHeight = e.nativeEvent.layout.height;
+            this.tabBarHeight = Dimensions.get("window").height - this.containerHeight
+          }}
+        >
           {/*Floating Item being dragged*/}
           { dragging &&
             <Animated.View
@@ -245,18 +248,16 @@ export default class FirstTab extends React.Component {
             style={styles.flatList}
             data={data}
             scrollEnabled={!dragging}
-            renderItem={renderItem}
+            renderItem={ renderItem }
             keyExtractor={ item => item.toString() }
-            onScroll={ e => {
-              this.scrollOffset = e.nativeEvent.contentOffset.y
-            }}
+            onScroll={ e => this.scrollOffset = e.nativeEvent.contentOffset.y }
             onLayout={ e => {
-              this.flatListOffset = e.nativeEvent.layout.y
               this.flatListHeight = e.nativeEvent.layout.height
+              this.flatListOffset = e.nativeEvent.layout.y
             }}
             scrollEventThrottle={16}
           />
-        </View>
+        </SafeAreaView>
 
 
         {
