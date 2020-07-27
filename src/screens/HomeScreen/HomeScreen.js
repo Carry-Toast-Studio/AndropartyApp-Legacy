@@ -80,7 +80,6 @@ function HomeScreen() {
 
           <TabView
             indicatorStyle={{ backgroundColor: 'white' }}
-            style={{ backgroundColouinr: 'pink' }}
             navigationState={{ index: tabIndex, routes: routes }}
             renderScene={renderScene}
             renderTabBar={renderTabBar}
