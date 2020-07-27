@@ -24,9 +24,9 @@ const TappedFAB = () => (
 
 // Aux
 function getRandomColor() {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
     color += letters[Math.floor(Math.random() * 16)];
   }
   return color;
@@ -91,12 +91,12 @@ export default class FirstTab extends React.Component {
 
     this.panResponder = PanResponder.create({
       // Ask to be the responder:
-      onStartShouldSetPanResponder: (evt, gestureState) => true,
-      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-      onMoveShouldSetPanResponder: (evt, gestureState) => true,
-      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
-      onPanResponderTerminationRequest: (evt, gestureState) => false,
-      onShouldBlockNativeResponder: (evt, gestureState) => true,
+      onStartShouldSetPanResponder: () => true,
+      onStartShouldSetPanResponderCapture: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponderCapture: () => true,
+      onPanResponderTerminationRequest: () => false,
+      onShouldBlockNativeResponder: () => true,
 
 
       onPanResponderGrant: (evt, gestureState) => {
@@ -126,8 +126,8 @@ export default class FirstTab extends React.Component {
         )({y: gestureState.moveY - this.totalOffset() - this.rowHeight / 2})
 
       },
-      onPanResponderRelease: (evt, gestureState) => this.reset(),
-      onPanResponderTerminate: (evt, gestureState) => this.reset(),
+      onPanResponderRelease: () => this.reset(),
+      onPanResponderTerminate: () => this.reset(),
     });
   }
 
@@ -145,8 +145,8 @@ export default class FirstTab extends React.Component {
           });
         }
         // UP
-        else if (this.currentY < this.autoScrollThreshold) {
-          const diff = this.autoScrollThreshold - this.currentY
+        else if (this.currentY - this.totalOffset() < this.autoScrollThreshold) {
+          const diff = this.autoScrollThreshold - (this.currentY - this.totalOffset())
           this.flatList.current.scrollToOffset({
             offset: this.scrollOffset - Math.min(this.autoScrollSpeed, diff),
             animated: false
@@ -203,9 +203,10 @@ export default class FirstTab extends React.Component {
             }}
             style={{
               ...styles.listRow,
-              opacity: draggingIndex === index ? 0 : 1, // hide selected item while dragging
-              backgroundColor: colorMap[item],
-              // First
+              // top: rowHeight,
+              opacity: draggingIndex === index ? 0.5 : 1,
+              backgroundColor: draggingIndex === index ? 'white' : colorMap[item],
+              // First item
               borderTopLeftRadius: index === 0 ? 40 : 0,
               borderTopRightRadius: index === 0 ? 40 : 0,
               // Last item
@@ -213,17 +214,19 @@ export default class FirstTab extends React.Component {
               borderBottomLeftRadius: index === data.length - 1 ? 40 : 0,
               borderBottomRightRadius: index === data.length - 1 ? 40 : 0,
             }}>
-          <Text style={styles.rowText}>{item}</Text>
+          {draggingIndex !== index && <Text style={styles.rowText}>{item}</Text>}
 
-          { // Simulate headers
-            <View
-                style={styles.rowHandler}
-                {...(noPanResponder ? {} : this.panResponder.panHandlers)}
-                onLayout={ e => this.handlerHeight === 0 && (this.handlerHeight = e.nativeEvent.layout.height)}
-            >
-              {index % 10 !== 0 && <MaterialIcon name="drag-handle" size={45} color="white"/>}
-            </View>
-          }
+          <View
+              style={styles.rowHandler}
+              {...(noPanResponder ? {} : this.panResponder.panHandlers)}
+              onLayout={ e => this.handlerHeight === 0 && (this.handlerHeight = e.nativeEvent.layout.height)}
+          >
+            {
+              draggingIndex !== index &&
+              index % 10 !== 0 && // Simulate headers
+              <MaterialIcon name="drag-handle" size={45} color="white"/>
+            }
+          </View>
         </View>
     )
 
@@ -265,7 +268,7 @@ export default class FirstTab extends React.Component {
                   this.flatListHeight = e.nativeEvent.layout.height
                   this.flatListOffset = e.nativeEvent.layout.y
                 }}
-                scrollEventThrottle={16}
+                scrollEventThrottle={20}
             />
           </SafeAreaView>
 
@@ -277,7 +280,7 @@ export default class FirstTab extends React.Component {
                   <TouchableOpacity
                       activeOpacity={0.5}
                       onPress={TappedFAB}
-                      style={styles.TouchableOpacityStyle} >
+                      style={styles.touchableOpacityStyle} >
                     <Image
                         source={{uri : 'https://reactnativecode.com/wp-content/uploads/2017/11/Floating_Button.png'}}
                         style={styles.FloatingButtonStyle} />
@@ -293,7 +296,6 @@ export default class FirstTab extends React.Component {
 }
 
 const rowHeight = Dimensions.get("window").height / 10
-const rowWidth = Dimensions.get("window").width * 0.9
 
 const styles = StyleSheet.create({
   container: {
@@ -337,6 +339,9 @@ const styles = StyleSheet.create({
         color: 'black',
       }
     })
+  },
+  touchableOpacityStyle: {
+
   },
   FloatingButtonStyle: {
     width: 50,
