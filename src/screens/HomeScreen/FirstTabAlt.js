@@ -78,7 +78,7 @@ export default class FirstTab extends React.Component {
   currentIndex = -1 // Index of the currently dragged item
   active = false
   flatListHeight = -1
-  autoScrollThreshold = 45 // Units away from the top/bottom edge that allow auto-scrolling while dragging an item
+  autoScrollThreshold = 35 // Units away from the top/bottom edge that allow auto-scrolling while dragging an item
   autoScrollSpeed = 25 // Units to scroll each frame the auto scroll is enabled
   handlerHeight = 0
   tabBarHeight = 0
@@ -123,7 +123,11 @@ export default class FirstTab extends React.Component {
         Animated.event(
             [{y: this.point.y}],
             {useNativeDriver: false}
-        )({y: gestureState.moveY - this.totalOffset() - this.rowHeight / 2})
+        )({
+          y: Math.max( // Limit how far up we can animate a row so it always remains on sight
+            gestureState.moveY - this.totalOffset(),
+            this.flatListOffset
+            ) - this.rowHeight / 2})
 
       },
       onPanResponderRelease: () => this.reset(),
