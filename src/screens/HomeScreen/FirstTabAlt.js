@@ -153,7 +153,7 @@ export default class FirstTab extends React.Component {
           });
         }
 
-        const newIndex = this.getIndexFromY(this.currentY);
+        const newIndex = this.getIndexFromY(this.currentY - this.rowHeight / 4);
         if (this.currentIndex !== newIndex) {
           const data = reorderArray(this.state.data, this.currentIndex, newIndex);
           this.setState({
