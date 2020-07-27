@@ -1,74 +1,49 @@
 import 'react-native-gesture-handler';
-import React, {useState} from 'react';
-import auth from '@react-native-firebase/auth';
+import React from 'react';
 import {
   StyleSheet,
-  View,
   Text,
-  TouchableOpacity
+  View,
 } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
+export default RowItem = ({parent, style, item, index, draggingIndex, data, noPanResponder, }) => {
 
-
-// Register app view
-export const RowItem = ({item, index, drag, isActive, data}) => {
-
-  return(
+  return (
     <View
-      style={{
-        ...styles.rowContainer,
-        backgroundColor: item.header ? "blue" : "red",
-        opacity: isActive ? 0.8 : 1.0,
-        // marginBottom: (index === data.length - 1 && !active) ? 100 : 0,
-        borderTopLeftRadius: (index === 0) ? 40 : 0, //Rounded corners for the first item
-        borderTopRightRadius: (index === 0) ? 40 : 0,
-        borderBottomLeftRadius: (index === data.length - 1) ? 40 : 0, //Rounded corners for the last item
-        borderBottomRightRadius: (index === data.length - 1) ? 40 : 0,
-      }}
+      style={{...style}}
+      onLayout={ e => parent.rowHeight = e.nativeEvent.layout.height }
     >
+      {draggingIndex !== index && // Hide text in dragged item
+      <Text style={styles.rowText}>
+        {item}
+      </Text>}
 
-      <Text
-        style={{
-          fontWeight: "bold",
-          color: "white",
-          fontSize: 32
-        }}
+      <View
+        style={styles.rowHandler}
+        {...(!noPanResponder ? parent.panResponder.panHandlers : {})}
+        onLayout={ e => parent.handlerHeight === 0 && (parent.handlerHeight = e.nativeEvent.layout.height)}
       >
-        {item.label}
-      </Text>
+        {
 
-
-      {/* Display drag button only if the rowItem is NOT a header */}
-      {!item.header ?
-        <TouchableOpacity
-          onPressIn={drag}
-        >
-          <View style={styles.handlerContainer}>
-            <MaterialIcon name="drag-handle" size={25} color="white" />
-          </View>
-        </TouchableOpacity>
-        :null
-      }
+          draggingIndex !== index && // Hide icon in dragged item
+          index % 10 !== 0 && // Simulate headers
+          <MaterialIcon name="drag-handle" size={45} color="white"/>
+        }
+      </View>
     </View>
 
   );
 }
 
 const styles = StyleSheet.create({
-  rowContainer: {
-    flexDirection: 'row',
-    backgroundColor: '#fb2b2c',
-    height: 80,
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingLeft: 40,
-    paddingRight: 40,
-    marginLeft: 20,
-    marginRight: 20,
+  rowText: {
+    flex: 1,
+    fontSize: 18,
+    textAlign: 'left',
   },
-  handlerContainer: {
-    backgroundColor: 'blue',
-    padding: 15
-  }
+  rowHandler: {
+    padding: 10
+  },
 });
+
