@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
-export default RowItem = ({parent, style, item, index, draggingIndex, data, noPanResponder, }) => {
+function RowItem ({parent, style, item, index, draggingIndex, data, noPanResponder, }) {
 
   return (
     <View
@@ -46,4 +46,6 @@ const styles = StyleSheet.create({
     padding: 10
   },
 });
+
+export default RowItem
 
